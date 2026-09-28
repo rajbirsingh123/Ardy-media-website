@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 230" width="200" height="230">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2f7fe0"/>
+      <stop offset="100%" stop-color="#154e9c"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe08a"/>
+      <stop offset="50%" stop-color="#f0b429"/>
+      <stop offset="100%" stop-color="#c9860a"/>
+    </linearGradient>
+  </defs>
+  <path d="M20 40 C20 18 38 10 55 10 L145 10 C162 10 180 18 180 40 L180 120 C180 165 140 195 100 218 C60 195 20 165 20 120 Z" fill="url(#shieldGrad)"/>
+  <path d="M40 44 L70 44 L52 74 L22 74 Z" fill="#eef4ff" opacity="0.9"/>
+  <path d="M85 44 L115 44 L97 74 L67 74 Z" fill="#eef4ff" opacity="0.75"/>
+  <path d="M130 44 L160 44 L142 74 L112 74 Z" fill="#eef4ff" opacity="0.6"/>
+  <path d="M63 92 L133 130 L63 168 Z" fill="#fdfdfd"/>
+  <text x="100" y="150" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="72" fill="url(#goldGrad)" stroke="#8a5c05" stroke-width="1">AM</text>
+</svg>
