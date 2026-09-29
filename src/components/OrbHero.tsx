@@ -436,9 +436,9 @@ export default function OrbHero() {
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       const narrow = w < 900;
-      camera.fov = narrow ? 48 : 30;
-      camera.position.set(0, 0, narrow ? 3.4 : 4.6);
-      orbGroup.position.set(narrow ? 0 : 0.9, narrow ? 0.1 : 0.85, 0);
+      camera.fov = narrow ? 46 : 32;
+      camera.position.set(0, 0, narrow ? 3.2 : 3.6);
+      orbGroup.position.set(0, 0, 0);
       camera.updateProjectionMatrix();
     }
     fit();
@@ -487,6 +487,7 @@ export default function OrbHero() {
     }
     function endDrag(e: PointerEvent) {
       dragging = false;
+      pointerNDC.set(10, 10);
       try {
         canvas.releasePointerCapture(e.pointerId);
       } catch {
@@ -520,7 +521,7 @@ export default function OrbHero() {
       }
     }
 
-    const AUTO = (Math.PI * 2) / 26;
+    const AUTO = (Math.PI * 2) / 17;
     const clock = new THREE.Clock();
     let rafId = 0;
     let visible = true;
@@ -538,7 +539,7 @@ export default function OrbHero() {
         if (!dragging) {
           velYaw *= 0.94;
           velPitch *= 0.94;
-          yaw += velYaw + AUTO * dt * (1 - slowT);
+          yaw += velYaw + AUTO * dt * (1 - slowT * 0.45);
           pitch += velPitch;
         }
         pitch *= 0.98;
@@ -615,59 +616,65 @@ export default function OrbHero() {
 
   return (
     <section className="relative overflow-hidden bg-navy">
-      <div className="relative lg:h-[clamp(640px,94vh,940px)]">
-        {/* Sphere: a contained box stacked above the copy on small screens;
-            a full-bleed backdrop pinned behind the copy from lg upward. */}
+      <div ref={containerRef} className="relative" style={{ height: "clamp(640px, 94vh, 940px)" }}>
         <div
-          ref={containerRef}
-          className="relative h-[380px] w-full sm:h-[440px] lg:absolute lg:inset-0 lg:h-full"
-        >
-          <div
-            className="absolute inset-0"
-            style={{ background: "radial-gradient(900px 600px at 60% 40%, #154e9c 0%, #0b1d3a 70%)" }}
-          />
-          <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full touch-none" aria-hidden="true" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-navy/10 to-transparent lg:via-navy/20" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[60%] bg-gradient-to-t from-navy/90 via-navy/25 to-transparent lg:block" />
+          className="absolute inset-0"
+          style={{ background: "radial-gradient(900px 600px at 50% 46%, #154e9c 0%, #0b1d3a 70%)" }}
+        />
+        <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full touch-none" aria-hidden="true" />
 
-          <div
-            ref={hintRef}
-            className="pointer-events-none absolute left-1/2 top-5 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-center text-xs font-medium text-white/70 opacity-0 ring-1 ring-white/10 backdrop-blur-md transition-opacity duration-700"
-          >
-            Drag to explore &middot; hover a card
-          </div>
+        {/* vignette so the centered copy stays legible over the sphere */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(52% 48% at 50% 50%, rgba(11,29,58,0.97) 0%, rgba(11,29,58,0.8) 55%, transparent 85%)",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-transparent to-navy/25" />
+        <div
+          className="pointer-events-none absolute inset-0 lg:hidden"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent 0%, rgba(11,29,58,0.55) 14%, rgba(11,29,58,0.6) 85%, transparent 100%)",
+          }}
+        />
+
+        <div
+          ref={hintRef}
+          className="pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-center text-xs font-medium text-white/70 opacity-0 ring-1 ring-white/10 backdrop-blur-md transition-opacity duration-700"
+        >
+          Drag to explore &middot; hover a card
         </div>
 
-        <div className="relative z-[2] lg:absolute lg:inset-x-0 lg:bottom-0">
+        <div className="absolute inset-0 z-[2] flex items-center">
           <Container>
-            <div className="grid gap-8 py-10 sm:py-12 lg:grid-cols-2 lg:items-end lg:gap-8 lg:pb-16 lg:pt-0">
-              <div>
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
-                  {stage.eyebrow}
-                </div>
-                <h1 className="text-balance font-display text-3xl font-extrabold leading-[1.08] text-white sm:text-4xl lg:text-[2.75rem]">
-                  {stage.heading} <span className="text-gold-300">{stage.headingAccent}</span>
-                </h1>
+            <div
+              className="mx-auto max-w-2xl text-center"
+              style={{ textShadow: "0 2px 28px rgba(11,29,58,0.95), 0 1px 3px rgba(11,29,58,0.9)" }}
+            >
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
+                {stage.eyebrow}
               </div>
-
-              <div>
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white/80 ring-1 ring-white/10">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  {badge.value} {badge.label}
-                </div>
-                <p className="max-w-md text-balance leading-relaxed text-white/70">{stage.body}</p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Button href="/contact">
-                    Book a Free Strategy Call <ArrowRightIcon />
-                  </Button>
-                  <Button
-                    href="/services"
-                    variant="outline"
-                    className="!border-white/30 !bg-white/5 !text-white hover:!border-gold-300 hover:!text-gold-300"
-                  >
-                    See What We Do
-                  </Button>
-                </div>
+              <h1 className="text-balance font-display text-4xl font-extrabold leading-[1.08] text-white sm:text-5xl lg:text-[3.4rem]">
+                {stage.heading} <span className="text-gold-300">{stage.headingAccent}</span>
+              </h1>
+              <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white/80 ring-1 ring-white/10">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                {badge.value} {badge.label}
+              </div>
+              <p className="mx-auto mt-4 max-w-lg text-balance leading-relaxed text-white/70">{stage.body}</p>
+              <div className="mt-7 flex flex-wrap justify-center gap-3">
+                <Button href="/contact">
+                  Book a Free Strategy Call <ArrowRightIcon />
+                </Button>
+                <Button
+                  href="/services"
+                  variant="outline"
+                  className="!border-white/30 !bg-white/5 !text-white hover:!border-gold-300 hover:!text-gold-300"
+                >
+                  See What We Do
+                </Button>
               </div>
             </div>
           </Container>
