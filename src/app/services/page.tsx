@@ -6,6 +6,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
 import TiltCard from "@/components/TiltCard";
+import HorizontalScrollGallery from "@/components/HorizontalScrollGallery";
 import ShieldBackdrop from "@/components/ShieldBackdrop";
 import { ArrowRightIcon, CheckIcon, iconMap } from "@/components/Icons";
 import { caseStudies, pillarRoutes, services, techCapabilities } from "@/lib/content";
@@ -28,6 +29,58 @@ export default function ServicesPage() {
             description="Every service below is built to connect to the others — your ads feed your CRM, your CRM feeds your automation, your site converts all three."
           />
         </Container>
+      </section>
+
+      <section className="border-b border-line bg-mist-50 py-16">
+        <Container className="mb-10">
+          <SectionHeading
+            eyebrow="At a Glance"
+            title="Swipe through the three pillars"
+            align="left"
+          />
+        </Container>
+        <HorizontalScrollGallery>
+          {services.map((service) => {
+            const Icon = iconMap[service.icon as keyof typeof iconMap];
+            return (
+              <TiltCard
+                key={service.slug}
+                className="w-[80vw] flex-shrink-0 rounded-2xl border border-line bg-white p-8 shadow-soft sm:w-[420px]"
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-brand-50 text-brand-700">
+                  <Icon />
+                </div>
+                <div className="mt-5 text-xs font-bold uppercase tracking-wider text-brand-700">
+                  {service.pillar}
+                </div>
+                <h3 className="mt-2 font-display text-xl font-bold text-navy">
+                  {service.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  {service.description}
+                </p>
+                <Link
+                  href={pillarRoutes[service.slug]}
+                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800"
+                >
+                  See full breakdown <ArrowRightIcon />
+                </Link>
+              </TiltCard>
+            );
+          })}
+          <div className="flex w-[80vw] flex-shrink-0 flex-col justify-center rounded-2xl bg-gradient-to-br from-navy via-brand-900 to-brand-800 p-8 shadow-lift sm:w-[420px]">
+            <h3 className="font-display text-xl font-bold text-white">
+              Ready to combine all three?
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">
+              Most clients run all three pillars together as one system. A
+              strategy call is the fastest way to see where to start.
+            </p>
+            <Button href="/contact" className="mt-6 self-start">
+              Book a Free Strategy Call <ArrowRightIcon />
+            </Button>
+          </div>
+        </HorizontalScrollGallery>
       </section>
 
       {services.map((service, i) => {

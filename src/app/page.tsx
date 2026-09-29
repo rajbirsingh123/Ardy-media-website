@@ -7,6 +7,7 @@ import PillarSwitcher from "@/components/PillarSwitcher";
 import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
 import TiltCard from "@/components/TiltCard";
+import Parallax from "@/components/Parallax";
 import FaqAccordion from "@/components/FaqAccordion";
 import { ArrowRightIcon } from "@/components/Icons";
 import { faqs, industries, outcomes, whyUs } from "@/lib/content";
@@ -19,7 +20,11 @@ export default function Home() {
       <PillarSwitcher />
 
       {/* Why Ardy Media */}
-      <Section3D className="py-24">
+      <Section3D className="relative py-24">
+        <Parallax
+          speed={0.25}
+          className="pointer-events-none absolute -top-16 right-[-8%] h-72 w-72 rounded-full bg-gold-500/10 blur-3xl"
+        />
         <Container>
           <Reveal>
             <SectionHeading
@@ -80,7 +85,11 @@ export default function Home() {
       </Section3D>
 
       {/* Outcomes */}
-      <Section3D className="bg-navy py-24">
+      <Section3D className="relative bg-navy py-24">
+        <Parallax
+          speed={-0.2}
+          className="pointer-events-none absolute -bottom-24 left-[-6%] h-80 w-80 rounded-full bg-brand-500/20 blur-3xl"
+        />
         <Container>
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">

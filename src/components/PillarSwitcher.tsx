@@ -5,6 +5,7 @@ import Link from "next/link";
 import Container from "./Container";
 import ShieldMark from "./ShieldMark";
 import Reveal from "./Reveal";
+import Parallax from "./Parallax";
 import { pillarRoutes, services } from "@/lib/content";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 
@@ -15,7 +16,12 @@ export default function PillarSwitcher() {
 
   return (
     <section id="pillars" className="relative scroll-mt-20 overflow-hidden bg-navy py-24">
-      <ShieldMark className="pointer-events-none absolute -right-24 top-1/2 h-[140%] w-auto -translate-y-1/2 text-white/[0.05] sm:-right-10" />
+      <Parallax
+        speed={0.18}
+        className="pointer-events-none absolute -right-24 top-1/2 h-[140%] w-auto -translate-y-1/2 sm:-right-10"
+      >
+        <ShieldMark className="h-full w-auto text-white/[0.05]" />
+      </Parallax>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-navy via-navy/95 to-navy" />
 
       <Container className="relative z-10">

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Container from "@/components/Container";
 import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
-import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
+import ProcessTimeline from "@/components/ProcessTimeline";
 import ShieldBackdrop from "@/components/ShieldBackdrop";
 import { ArrowRightIcon } from "@/components/Icons";
 import { process } from "@/lib/content";
@@ -28,40 +28,11 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      <Section3D className="pb-24">
+      <section className="pb-24">
         <Container>
-          <div className="relative mx-auto max-w-3xl">
-            <div className="absolute left-[27px] top-2 hidden h-[calc(100%-2rem)] w-px bg-line sm:block" />
-            <div className="space-y-10">
-              {process.map((step, i) => (
-                <Reveal
-                  key={step.step}
-                  delay={i * 100}
-                  className="relative flex flex-col gap-5 sm:flex-row"
-                >
-                  <div
-                    className="relative z-10 grid h-14 w-14 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 font-display text-lg font-extrabold text-white shadow-soft transition-transform duration-500 hover:[transform:perspective(400px)_rotateY(180deg)]"
-                    style={{ transformStyle: "preserve-3d" }}
-                  >
-                    {step.step}
-                  </div>
-                  <div className="flex-1 rounded-2xl border border-line bg-white p-6 shadow-soft">
-                    <h3 className="font-display text-xl font-bold text-navy">
-                      {step.title}
-                    </h3>
-                    <p className="mt-1 text-sm font-medium text-brand-700">
-                      {step.short}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted">
-                      {step.detail}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+          <ProcessTimeline steps={process} />
         </Container>
-      </Section3D>
+      </section>
 
       <Section3D className="pb-24">
         <Container>
