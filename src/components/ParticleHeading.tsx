@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-type RGB = [number, number, number];
 type Format = "dot" | "square";
 
 type Particle = {
@@ -16,11 +15,6 @@ type Particle = {
   mask: number;
 };
 
-const PALETTE: RGB[] = [
-  [255, 255, 255],
-  [255, 255, 255],
-  [255, 255, 255],
-];
 const FORMATS: Format[] = ["dot", "dot", "square"];
 const SIZE_SMALL: [number, number] = [1.0, 1.9];
 const SIZE_BIG: [number, number] = [2.1, 3.0];
@@ -53,17 +47,7 @@ function snowfall(p: Particle, t: number) {
 function squall(p: Particle, t: number) {
   const band = 0.35 + 0.65 * Math.pow(0.5 + 0.5 * Math.sin(3 * p.nx - 0.5 * t), 2);
   const flake = snowfall(p, t);
-  return { a: 0.04 + 0.95 * band * Math.pow(flake, 1.8), p: 0.7 * p.offset };
-}
-
-function lerpRGB(a: RGB, b: RGB, t: number): RGB {
-  return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-}
-function mixPalette(p: number): RGB {
-  const e = Math.max(0, Math.min(1, p)) * (PALETTE.length - 1);
-  const r = Math.floor(e);
-  const s = e - r;
-  return lerpRGB(PALETTE[r], PALETTE[Math.min(PALETTE.length - 1, r + 1)], s);
+  return Math.max(0, Math.min(1, 0.04 + 0.95 * band * Math.pow(flake, 1.8)));
 }
 
 function lcg(seed: number) {
@@ -101,6 +85,21 @@ export default function ParticleHeading({
     let tNow = 0;
     let rafId = 0;
     let visible = true;
+
+    // Pre-rendered radial glow, tinted per-draw via globalAlpha — far cheaper
+    // than building a gradient for every star on every frame.
+    const glowSprite = document.createElement("canvas");
+    glowSprite.width = 64;
+    glowSprite.height = 64;
+    const gctx = glowSprite.getContext("2d");
+    if (gctx) {
+      const grad = gctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, "rgba(255,255,255,0.95)");
+      grad.addColorStop(0.35, "rgba(255,255,255,0.4)");
+      grad.addColorStop(1, "rgba(255,255,255,0)");
+      gctx.fillStyle = grad;
+      gctx.fillRect(0, 0, 64, 64);
+    }
 
     function buildMask(w: number, h: number) {
       const off = document.createElement("canvas");
@@ -180,21 +179,23 @@ export default function ParticleHeading({
     }
 
     function draw(p: Particle, t: number) {
-      const field = squall(p, t);
-      const shimmer = Math.max(0, Math.min(1, field.a));
+      const shimmer = squall(p, t);
       // Legible floor so the shape always reads; shimmer only adds sparkle on top.
-      const alpha = p.mask * (0.68 + 0.32 * shimmer);
+      const alpha = p.mask * (0.78 + 0.22 * shimmer);
       if (alpha <= 0.02) return;
-      const rgb = mixPalette(field.p);
       const r = p.size / 2;
 
-      // Soft halo (additive) for a premium glow, then a crisp core on top.
-      ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha * 0.35})`;
-      ctx.beginPath();
-      ctx.arc(p.cx, p.cy, r * 2.4, 0, TAU);
-      ctx.fill();
+      // Starlight glow: a pre-rendered radial sprite scaled per particle, tinted via alpha.
+      if (gctx) {
+        const glowR = r * 4.2;
+        ctx.globalAlpha = Math.min(1, alpha * 0.85);
+        ctx.drawImage(glowSprite, p.cx - glowR, p.cy - glowR, glowR * 2, glowR * 2);
+        ctx.globalAlpha = 1;
+      }
 
-      ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`;
+      // Bright crisp core on top so the letterforms stay sharp, not just glowy.
+      const coreAlpha = Math.min(1, alpha * 1.35);
+      ctx.fillStyle = `rgba(255,255,255,${coreAlpha})`;
       if (p.format === "square") ctx.fillRect(p.cx - r, p.cy - r, p.size, p.size);
       else {
         ctx.beginPath();
@@ -248,7 +249,7 @@ export default function ParticleHeading({
       <h1 className="sr-only">
         {lines[0]} {lines[1]}
       </h1>
-      <div ref={hostRef} aria-hidden="true" className="mx-auto h-40 w-full max-w-2xl sm:h-48 lg:h-60">
+      <div ref={hostRef} aria-hidden="true" className="h-44 w-full sm:h-56 lg:h-72">
         <canvas ref={canvasRef} className="block h-full w-full" />
       </div>
     </div>

@@ -6,7 +6,7 @@ import Container from "./Container";
 import Button from "./Button";
 import ParticleHeading from "./ParticleHeading";
 import { ArrowRightIcon } from "./Icons";
-import { heroStages, stats } from "@/lib/content";
+import { stats } from "@/lib/content";
 
 /* ---------------------------------------------------------------------
  * Seeded PRNG — deterministic card layout, so the sphere reads the same
@@ -612,8 +612,6 @@ export default function OrbHero() {
     };
   }, []);
 
-  const stage = heroStages[0];
-
   return (
     <section className="relative overflow-hidden bg-navy">
       <div ref={containerRef} className="relative" style={{ height: "clamp(640px, 94vh, 940px)" }}>
@@ -650,14 +648,14 @@ export default function OrbHero() {
         <div className="absolute inset-0 z-[2] flex items-center">
           <Container>
             <div
-              className="mx-auto max-w-2xl text-center"
+              className="text-center"
               style={{ textShadow: "0 2px 28px rgba(11,29,58,0.95), 0 1px 3px rgba(11,29,58,0.9)" }}
             >
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
-                {stage.eyebrow}
-              </div>
-              <ParticleHeading lines={["You do the real work.", "We run your marketing & tech."]} />
-              <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <ParticleHeading
+                lines={["You do the real work.", "We run your marketing & tech."]}
+                className="mx-auto max-w-5xl"
+              />
+              <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
                 <Button href="/contact">
                   Book a Free Strategy Call <ArrowRightIcon />
                 </Button>
