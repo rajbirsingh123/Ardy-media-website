@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import Container from "./Container";
 import Button from "./Button";
+import ParticleHeading from "./ParticleHeading";
 import { ArrowRightIcon } from "./Icons";
 import { heroStages, stats } from "@/lib/content";
 
@@ -655,9 +656,7 @@ export default function OrbHero() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
                 {stage.eyebrow}
               </div>
-              <h1 className="text-balance font-display text-4xl font-extrabold leading-[1.08] text-white sm:text-5xl lg:text-[3.4rem]">
-                {stage.heading} <span className="text-gold-300">{stage.headingAccent}</span>
-              </h1>
+              <ParticleHeading lines={["You do the real work.", "We run your marketing & tech."]} />
               <div className="mt-7 flex flex-wrap justify-center gap-3">
                 <Button href="/contact">
                   Book a Free Strategy Call <ArrowRightIcon />
