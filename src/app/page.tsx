@@ -2,7 +2,7 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
-import HeroCinematic from "@/components/HeroCinematic";
+import OrbHero from "@/components/OrbHero";
 import PillarSwitcher from "@/components/PillarSwitcher";
 import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
@@ -15,7 +15,7 @@ import { faqs, industries, outcomes, whyUs } from "@/lib/content";
 export default function Home() {
   return (
     <>
-      <HeroCinematic />
+      <OrbHero />
 
       <PillarSwitcher />
 
