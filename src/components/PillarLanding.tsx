@@ -10,6 +10,7 @@ import TrustedBy from "./TrustedBy";
 import ShieldBackdrop from "./ShieldBackdrop";
 import ConversationDemo from "./ConversationDemo";
 import FloatVisual from "./FloatVisual";
+import SectionConnector from "./SectionConnector";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 import {
   pillarBrand,
@@ -94,6 +95,7 @@ export default function PillarLanding({
                       width={visuals.hero.width}
                       height={visuals.hero.height}
                       priority
+                      stage={{ index: "01", label: "Reach" }}
                       className="mx-auto max-w-md lg:max-w-none"
                     />
                   )
@@ -127,6 +129,8 @@ export default function PillarLanding({
           )}
         </Container>
       </section>
+
+      {visuals?.hero && <SectionConnector />}
 
       {/* Services list */}
       {serviceList.length > 0 && (
@@ -190,6 +194,61 @@ export default function PillarLanding({
         </Container>
       </Section3D>
 
+      {/* Process */}
+      {processSteps.length > 0 && (
+        <Section3D className="py-20">
+          <Container>
+            {visuals?.process ? (
+              <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr]">
+                <Reveal>
+                  <SectionHeading
+                    eyebrow="How It Works"
+                    title={`How ${brand.name} works`}
+                    align="left"
+                  />
+                </Reveal>
+                <Reveal delay={120}>
+                  <FloatVisual
+                    src={visuals.process.src}
+                    alt={`${brand.name} lead capture funnel`}
+                    width={visuals.process.width}
+                    height={visuals.process.height}
+                    stage={{ index: "02", label: "Convert" }}
+                    className="mx-auto max-w-xs lg:max-w-sm"
+                  />
+                </Reveal>
+              </div>
+            ) : (
+              <Reveal>
+                <SectionHeading
+                  eyebrow="How It Works"
+                  title={`How ${brand.name} works`}
+                />
+              </Reveal>
+            )}
+            <div className="mt-14 grid gap-6 md:grid-cols-4">
+              {processSteps.map((step, i) => (
+                <Reveal key={step.step} delay={i * 90}>
+                  <TiltCard className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft">
+                    <span className="font-display text-4xl font-extrabold text-brand-100">
+                      {step.step}
+                    </span>
+                    <h3 className="mt-2 font-display text-lg font-bold text-navy">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
+                      {step.description}
+                    </p>
+                  </TiltCard>
+                </Reveal>
+              ))}
+            </div>
+          </Container>
+        </Section3D>
+      )}
+
+      {visuals?.process && visuals?.capabilities && <SectionConnector />}
+
       {/* Capabilities breakdown */}
       {capabilities.length > 0 && (
         <Section3D className="bg-mist-100 py-20">
@@ -210,6 +269,7 @@ export default function PillarLanding({
                     alt={`${brand.name} performance analytics`}
                     width={visuals.capabilities.width}
                     height={visuals.capabilities.height}
+                    stage={{ index: "03", label: "Grow" }}
                     className="mx-auto max-w-xs lg:max-w-sm"
                   />
                 </Reveal>
@@ -244,58 +304,6 @@ export default function PillarLanding({
                         </li>
                       ))}
                     </ul>
-                  </TiltCard>
-                </Reveal>
-              ))}
-            </div>
-          </Container>
-        </Section3D>
-      )}
-
-      {/* Process */}
-      {processSteps.length > 0 && (
-        <Section3D className="py-20">
-          <Container>
-            {visuals?.process ? (
-              <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr]">
-                <Reveal>
-                  <SectionHeading
-                    eyebrow="How It Works"
-                    title={`How ${brand.name} works`}
-                    align="left"
-                  />
-                </Reveal>
-                <Reveal delay={120}>
-                  <FloatVisual
-                    src={visuals.process.src}
-                    alt={`${brand.name} lead capture funnel`}
-                    width={visuals.process.width}
-                    height={visuals.process.height}
-                    className="mx-auto max-w-xs lg:max-w-sm"
-                  />
-                </Reveal>
-              </div>
-            ) : (
-              <Reveal>
-                <SectionHeading
-                  eyebrow="How It Works"
-                  title={`How ${brand.name} works`}
-                />
-              </Reveal>
-            )}
-            <div className="mt-14 grid gap-6 md:grid-cols-4">
-              {processSteps.map((step, i) => (
-                <Reveal key={step.step} delay={i * 90}>
-                  <TiltCard className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft">
-                    <span className="font-display text-4xl font-extrabold text-brand-100">
-                      {step.step}
-                    </span>
-                    <h3 className="mt-2 font-display text-lg font-bold text-navy">
-                      {step.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">
-                      {step.description}
-                    </p>
                   </TiltCard>
                 </Reveal>
               ))}
