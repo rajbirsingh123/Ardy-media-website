@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Logo from "./Logo";
-import ParticleHeading from "./ParticleHeading";
 import SkyField from "./SkyField";
 import { getBrandForPath, navLinks, pillarRoutes, services, site } from "@/lib/content";
 
@@ -14,7 +13,7 @@ export default function Footer() {
   const brand = getBrandForPath(pathname);
 
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-[#01030a] text-white/80">
+    <footer className="relative overflow-hidden border-t border-white/5 text-white/80">
       <div
         className="absolute inset-0"
         style={{
@@ -22,17 +21,24 @@ export default function Footer() {
         }}
       />
       <SkyField className="absolute inset-0" />
+
       <Container className="relative z-10 py-14">
-        <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Logo dark size={40} wordmark={brand.name.toUpperCase()} />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
+            <Logo dark size={32} wordmark={brand.name.toUpperCase()} />
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/55">
               {brand.tagline}
             </p>
+            <Link
+              href="/contact"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300 transition-colors hover:text-gold-200"
+            >
+              Book a free strategy call →
+            </Link>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white/40">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/35">
               Services
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm">
@@ -40,7 +46,7 @@ export default function Footer() {
                 <li key={s.slug}>
                   <Link
                     href={pillarRoutes[s.slug]}
-                    className="transition-colors hover:text-gold-300"
+                    className="text-white/70 transition-colors hover:text-gold-300"
                   >
                     {s.pillar}
                   </Link>
@@ -50,13 +56,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white/40">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/35">
               Company
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="transition-colors hover:text-gold-300">
+                  <Link href={link.href} className="text-white/70 transition-colors hover:text-gold-300">
                     {link.label}
                   </Link>
                 </li>
@@ -65,29 +71,23 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white/40">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/35">
               Get in touch
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
-                <a href={`mailto:${site.email}`} className="transition-colors hover:text-gold-300">
+                <a
+                  href={`mailto:${site.email}`}
+                  className="text-white/70 transition-colors hover:text-gold-300"
+                >
                   {site.email}
                 </a>
               </li>
-              <li className="text-white/60">{site.phone}</li>
-              <li className="text-white/60">{site.location}</li>
             </ul>
           </div>
         </div>
 
-        <ParticleHeading
-          lines={[brand.name.toUpperCase()]}
-          as="p"
-          heightClassName="h-14 w-full sm:h-20 lg:h-28"
-          className="mt-16 select-none"
-        />
-
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {year} Ardy Media. All rights reserved.</span>
           <span>{brand.name} — {brand.tagline}</span>
         </div>

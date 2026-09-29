@@ -6,7 +6,6 @@ import Container from "./Container";
 import NeuralButton from "./NeuralButton";
 import ParticleHeading from "./ParticleHeading";
 import Reveal from "./Reveal";
-import SkyField from "./SkyField";
 import { ArrowRightIcon } from "./Icons";
 import { stats } from "@/lib/content";
 
@@ -603,16 +602,15 @@ export default function OrbHero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[#01030a]">
+    <section className="relative overflow-hidden">
       <div ref={containerRef} className="relative" style={{ height: "clamp(640px, 94vh, 940px)" }}>
         <div
-          className="absolute inset-0"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(900px 600px at 50% 46%, #0a1730 0%, #030812 55%, #000103 100%)",
+              "radial-gradient(900px 600px at 50% 46%, rgba(10,23,48,0.55) 0%, rgba(3,8,18,0.25) 55%, transparent 100%)",
           }}
         />
-        <SkyField className="absolute inset-0" />
         <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full touch-none" aria-hidden="true" />
 
         {/* vignette so the centered copy stays legible over the sphere */}
@@ -620,15 +618,15 @@ export default function OrbHero() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(52% 48% at 50% 50%, rgba(1,3,10,0.97) 0%, rgba(1,3,10,0.8) 55%, transparent 85%)",
+              "radial-gradient(52% 48% at 50% 50%, rgba(0,1,3,0.97) 0%, rgba(0,1,3,0.8) 55%, transparent 85%)",
           }}
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#01030a] via-transparent to-[#01030a]/25" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#000103] via-transparent to-[#000103]/25" />
         <div
           className="pointer-events-none absolute inset-0 lg:hidden"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 0%, rgba(1,3,10,0.55) 14%, rgba(1,3,10,0.6) 85%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(0,1,3,0.55) 14%, rgba(0,1,3,0.6) 85%, transparent 100%)",
           }}
         />
 

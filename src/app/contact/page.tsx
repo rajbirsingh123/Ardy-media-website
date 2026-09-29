@@ -15,9 +15,11 @@ export const metadata: Metadata = {
 
 const contactDetails = [
   { icon: "✉", label: site.email, href: `mailto:${site.email}` },
-  { icon: "📞", label: site.phone, href: `tel:${site.phone.replace(/[^\d+]/g, "")}` },
-  { icon: "📍", label: site.location },
-];
+  site.phone
+    ? { icon: "📞", label: site.phone, href: `tel:${site.phone.replace(/[^\d+]/g, "")}` }
+    : null,
+  site.location ? { icon: "📍", label: site.location } : null,
+].filter((detail): detail is { icon: string; label: string; href?: string } => detail !== null);
 
 export default function ContactPage() {
   return (

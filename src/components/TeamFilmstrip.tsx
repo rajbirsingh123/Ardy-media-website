@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Container from "./Container";
-import SkyField from "./SkyField";
 import { ArrowRightIcon, iconMap } from "./Icons";
 import { team } from "@/lib/content";
 
@@ -180,14 +179,7 @@ export default function TeamFilmstrip() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[#01030a] py-20 sm:py-24">
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
-        }}
-      />
-      <SkyField className="absolute inset-0" />
+    <section className="relative overflow-hidden py-20 sm:py-24">
       <Container className="relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">

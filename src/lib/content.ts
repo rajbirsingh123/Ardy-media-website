@@ -3,9 +3,9 @@ export const site = {
   tagline: "Marketing, Media & Technology, Handled.",
   description:
     "Ardy Media runs your digital marketing, media and technology stack — Meta/Instagram/LinkedIn ads, websites, CRM, Flutter & native apps, custom development, and AI automation — so you can focus on the real work.",
-  email: "info@royaldencapital.ca",
-  phone: "+1 (000) 000-0000",
-  location: "Head Office — Unit 1, 2483 Burnhamthorpe Rd W, Oakville ON L6M 4H1",
+  email: "hello@ardymedia.com",
+  phone: "",
+  location: "",
   url: "https://ardymedia.com",
 };
 
@@ -273,11 +273,6 @@ export type TrustedCompany = {
 };
 
 export const trustedCompanies: TrustedCompany[] = [
-  {
-    name: "Viktech Software Solutions",
-    url: "https://viktechsoftwaresolutions.com",
-    logo: { src: "/logos/viktech.png", width: 453, height: 372 },
-  },
   {
     name: "Summer Haven",
     url: "https://summerheaven.ca",
@@ -556,6 +551,24 @@ export const outcomes = [
   },
 ];
 
+export const pillarTestimonials: Record<
+  string,
+  { quote: string; attribution: string }[]
+> = {
+  "digital-marketing": [
+    {
+      quote:
+        "Ardy Media took our paid social from a guessing game to a real pipeline — every lead is tracked back to the campaign that brought it in, and the weekly reports actually tell us what to do next.",
+      attribution: "Sabbie Sandhu, Founder & Owner — Royal Den Capital",
+    },
+    {
+      quote:
+        "We finally have a system instead of scattered ads. Ardy Media set up our Meta and Instagram campaigns and we've had a steady stream of qualified leads ever since.",
+      attribution: "Gurprem Sandhu — Summer Haven",
+    },
+  ],
+};
+
 export const whyUs = [
   {
     title: "One team, zero hand-off gaps",
@@ -744,6 +757,50 @@ export const pillarProcess: Record<string, PillarProcessStep[]> = {
       description:
         "We watch response times, conversion rates and where leads drop off, and adjust the automation as your volume and offers change.",
     },
+  ],
+};
+
+export type PillarPlatform = {
+  name: string;
+  description: string;
+  tags: string[];
+};
+
+export const pillarPlatforms: Record<string, PillarPlatform[]> = {
+  "digital-marketing": [
+    {
+      name: "Meta Ads",
+      description:
+        "Facebook & Instagram campaigns with Lead Ads, custom audiences, and retargeting funnels tuned for pipeline.",
+      tags: ["Lead Ads", "Retargeting", "Custom Audiences"],
+    },
+    {
+      name: "LinkedIn Ads",
+      description:
+        "B2B lead generation with precise targeting by job title, industry, and company size — built for pipeline, not impressions.",
+      tags: ["B2B Targeting", "Lead Gen Forms", "Account Targeting"],
+    },
+    {
+      name: "Instagram",
+      description:
+        "Story ads, Reels and carousel creative that stop the scroll and drive qualified traffic to conversion-optimized landing pages.",
+      tags: ["Reels Ads", "Story Ads", "Carousel"],
+    },
+  ],
+};
+
+export type PillarHighlight = {
+  value: string;
+  label: string;
+  sublabel: string;
+};
+
+export const pillarHighlights: Record<string, PillarHighlight[]> = {
+  "digital-marketing": [
+    { value: "3", label: "Ad platforms", sublabel: "Meta, Instagram & LinkedIn" },
+    { value: "5", label: "Capability areas", sublabel: "Strategy through to reporting" },
+    { value: "4", label: "Step delivery process", sublabel: "Audit to scale & report" },
+    { value: "Weekly", label: "Reporting cadence", sublabel: "Plain-language, every week" },
   ],
 };
 

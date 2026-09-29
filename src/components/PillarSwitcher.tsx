@@ -5,7 +5,6 @@ import Container from "./Container";
 import ShieldMark from "./ShieldMark";
 import Reveal from "./Reveal";
 import Parallax from "./Parallax";
-import SkyField from "./SkyField";
 import NeuralButton from "./NeuralButton";
 import { pillarRoutes, services } from "@/lib/content";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
@@ -16,14 +15,7 @@ export default function PillarSwitcher() {
   const Icon = iconMap[service.icon as keyof typeof iconMap];
 
   return (
-    <section id="pillars" className="relative scroll-mt-20 overflow-hidden bg-[#01030a] py-24">
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
-        }}
-      />
-      <SkyField className="absolute inset-0" />
+    <section id="pillars" className="relative scroll-mt-20 overflow-hidden py-24">
       <Parallax
         speed={0.18}
         className="pointer-events-none absolute -right-24 top-1/2 h-[140%] w-auto -translate-y-1/2 sm:-right-10"

@@ -1,24 +1,19 @@
-import Image from "next/image";
+"use client";
+
 import TiltCard from "./TiltCard";
 
-export default function FloatVisual({
+export default function FloatVideo({
   src,
-  alt,
-  width,
-  height,
   className = "",
-  priority = false,
   stage,
   dark = false,
+  speed = 0.6,
 }: {
   src: string;
-  alt: string;
-  width: number;
-  height: number;
   className?: string;
-  priority?: boolean;
   stage?: { index: string; label: string };
   dark?: boolean;
+  speed?: number;
 }) {
   return (
     <div className={`relative float-anim ${className}`}>
@@ -42,13 +37,13 @@ export default function FloatVisual({
           </span>
         </div>
       )}
-      <TiltCard className="drop-shadow-2xl">
-        <Image
+      <TiltCard className="overflow-hidden rounded-2xl drop-shadow-2xl">
+        <video
           src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          priority={priority}
+          autoPlay
+          loop
+          muted
+          playsInline
           className="h-auto w-full select-none"
         />
       </TiltCard>

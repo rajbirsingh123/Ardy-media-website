@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Container from "@/components/Container";
-import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
 import OrbHero from "@/components/OrbHero";
 import TeamFilmstrip from "@/components/TeamFilmstrip";
@@ -17,6 +16,16 @@ import { faqs, industries, outcomes, whyUs } from "@/lib/content";
 export default function Home() {
   return (
     <>
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[#01030a]">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(1200px 700px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
+          }}
+        />
+        <SkyField className="absolute inset-0" />
+      </div>
+
       <OrbHero />
 
       <TeamFilmstrip />
@@ -29,9 +38,10 @@ export default function Home() {
           speed={0.25}
           className="pointer-events-none absolute -top-16 right-[-8%] h-72 w-72 rounded-full bg-gold-500/10 blur-3xl"
         />
-        <Container>
+        <Container className="relative z-10">
           <Reveal>
             <SectionHeading
+              dark
               eyebrow="Why Ardy Media"
               title="Why founders choose Ardy Media"
               description="Most businesses juggle an ad agency, a web developer, a CRM vendor, and an app team — none of whom talk to each other. Ardy Media replaces that chaos with one accountable partner."
@@ -40,12 +50,12 @@ export default function Home() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {whyUs.map((item, i) => (
               <Reveal key={item.title} delay={i * 80}>
-                <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
-                  <span className="font-display text-2xl font-extrabold text-gold-600">
+                <TiltCard className="h-full rounded-2xl bg-white/5 p-7 ring-1 ring-white/10 transition-colors duration-300 hover:ring-white/20">
+                  <span className="font-display text-2xl font-extrabold text-gold-300">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-3 font-semibold text-navy">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                  <h3 className="mt-3 font-semibold text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/70">
                     {item.description}
                   </p>
                 </TiltCard>
@@ -53,18 +63,22 @@ export default function Home() {
             ))}
           </div>
           <Reveal delay={320} className="mt-10 text-center">
-            <Button href="/about" variant="outline">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300 hover:text-gold-200"
+            >
               More about how we work <ArrowRightIcon />
-            </Button>
+            </Link>
           </Reveal>
         </Container>
       </Section3D>
 
       {/* Industries we serve */}
-      <Section3D id="industries" className="bg-mist-100 py-24">
-        <Container>
+      <Section3D id="industries" className="relative py-24">
+        <Container className="relative z-10">
           <Reveal>
             <SectionHeading
+              dark
               eyebrow="Who We Serve"
               title="Built for the businesses that make a city"
               description="Different industries, same problem — marketing and technology that don't talk to each other. We fix that."
@@ -74,11 +88,11 @@ export default function Home() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {industries.map((industry, i) => (
               <Reveal key={industry.name} delay={i * 80}>
-                <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
-                  <h3 className="font-display text-lg font-bold text-navy">
+                <TiltCard className="h-full rounded-2xl bg-white/5 p-7 ring-1 ring-white/10 transition-colors duration-300 hover:ring-white/20">
+                  <h3 className="font-display text-lg font-bold text-white">
                     {industry.name}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                  <p className="mt-2 text-sm leading-relaxed text-white/70">
                     {industry.description}
                   </p>
                 </TiltCard>
@@ -89,14 +103,7 @@ export default function Home() {
       </Section3D>
 
       {/* Outcomes */}
-      <Section3D className="relative overflow-hidden bg-[#01030a] py-24">
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
-          }}
-        />
-        <SkyField className="absolute inset-0" />
+      <Section3D className="relative py-24">
         <Parallax
           speed={-0.2}
           className="pointer-events-none absolute -bottom-24 left-[-6%] h-80 w-80 rounded-full bg-brand-500/20 blur-3xl"
@@ -133,18 +140,18 @@ export default function Home() {
       </Section3D>
 
       {/* FAQ */}
-      <Section3D className="py-24">
-        <Container>
+      <Section3D className="relative py-24">
+        <Container className="relative z-10">
           <Reveal>
-            <SectionHeading eyebrow="Questions" title="Frequently asked questions" />
+            <SectionHeading dark eyebrow="Questions" title="Frequently asked questions" />
           </Reveal>
           <Reveal delay={100} className="mt-12">
-            <FaqAccordion items={faqs.slice(0, 5)} />
+            <FaqAccordion dark items={faqs.slice(0, 5)} />
           </Reveal>
           <Reveal delay={150} className="mt-8 text-center">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300 hover:text-gold-200"
             >
               Have a different question? Ask us <ArrowRightIcon />
             </Link>
