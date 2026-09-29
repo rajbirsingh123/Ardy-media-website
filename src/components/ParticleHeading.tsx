@@ -22,11 +22,11 @@ const PALETTE: RGB[] = [
   [255, 255, 255],
 ];
 const FORMATS: Format[] = ["dot", "dot", "square"];
-const SIZE_SMALL: [number, number] = [1.2, 2.3];
-const SIZE_BIG: [number, number] = [2.6, 3.7];
-const BIG_CHANCE = 0.07;
-const GAP = 4;
-const SPEED = 2;
+const SIZE_SMALL: [number, number] = [1.0, 1.9];
+const SIZE_BIG: [number, number] = [2.1, 3.0];
+const BIG_CHANCE = 0.06;
+const BASE_GAP = 2.6;
+const SPEED = 1.4;
 const SEED = 1337;
 const GAMMA = 0.8;
 const DUR = 8;
@@ -150,8 +150,8 @@ export default function ParticleHeading({
 
       const sample = buildMask(w, h);
       const rand = lcg(SEED);
-      const gap = Math.max(2.1, Math.min(GAP, w / 150));
-      const sizeScale = gap / GAP;
+      const gap = Math.max(1.5, Math.min(BASE_GAP, w / 260));
+      const sizeScale = gap / BASE_GAP;
       const cols = Math.ceil(w / gap);
       const rows = Math.ceil(h / gap);
       const ox = (w - (cols - 1) * gap) / 2;
@@ -162,7 +162,7 @@ export default function ParticleHeading({
           const px = ox + x * gap;
           const py = oy + y * gap;
           const m = sample ? sample(px, py) : 0;
-          if (m < 0.06) continue;
+          if (m < 0.16) continue;
           const range = rand() < BIG_CHANCE ? SIZE_BIG : SIZE_SMALL;
           next.push({
             cx: px,
@@ -181,12 +181,20 @@ export default function ParticleHeading({
 
     function draw(p: Particle, t: number) {
       const field = squall(p, t);
-      let alpha = Math.max(0, Math.min(1, field.a));
-      alpha = p.mask * (0.3 + 0.7 * alpha);
-      if (alpha <= 0.01) return;
+      const shimmer = Math.max(0, Math.min(1, field.a));
+      // Legible floor so the shape always reads; shimmer only adds sparkle on top.
+      const alpha = p.mask * (0.68 + 0.32 * shimmer);
+      if (alpha <= 0.02) return;
       const rgb = mixPalette(field.p);
-      ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`;
       const r = p.size / 2;
+
+      // Soft halo (additive) for a premium glow, then a crisp core on top.
+      ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha * 0.35})`;
+      ctx.beginPath();
+      ctx.arc(p.cx, p.cy, r * 2.4, 0, TAU);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`;
       if (p.format === "square") ctx.fillRect(p.cx - r, p.cy - r, p.size, p.size);
       else {
         ctx.beginPath();
@@ -197,7 +205,9 @@ export default function ParticleHeading({
 
     function render(t: number) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = "lighter";
       for (const p of particles) draw(p, t);
+      ctx.globalCompositeOperation = "source-over";
     }
 
     function tick(now: number) {
