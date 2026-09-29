@@ -640,7 +640,7 @@ export default function OrbHero() {
 
         <div className="relative z-[2] lg:absolute lg:inset-x-0 lg:bottom-0">
           <Container>
-            <div className="grid gap-8 py-10 sm:py-12 lg:grid-cols-2 lg:items-end lg:gap-8 lg:pb-16 lg:pt-0">
+            <div className="grid gap-8 py-10 text-center sm:py-12 lg:grid-cols-2 lg:items-end lg:gap-8 lg:pb-16 lg:pt-0 lg:text-left">
               <div>
                 <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
                   {stage.eyebrow}
@@ -655,8 +655,10 @@ export default function OrbHero() {
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   {badge.value} {badge.label}
                 </div>
-                <p className="max-w-md text-balance leading-relaxed text-white/70">{stage.body}</p>
-                <div className="mt-6 flex flex-wrap gap-3">
+                <p className="mx-auto max-w-md text-balance leading-relaxed text-white/70 lg:mx-0">
+                  {stage.body}
+                </p>
+                <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
                   <Button href="/contact">
                     Book a Free Strategy Call <ArrowRightIcon />
                   </Button>
