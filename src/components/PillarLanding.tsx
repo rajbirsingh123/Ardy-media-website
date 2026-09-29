@@ -9,6 +9,7 @@ import FaqAccordion from "./FaqAccordion";
 import TrustedBy from "./TrustedBy";
 import ShieldBackdrop from "./ShieldBackdrop";
 import ConversationDemo from "./ConversationDemo";
+import FloatVisual from "./FloatVisual";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 import {
   pillarBrand,
@@ -26,10 +27,18 @@ const otherPillars: { slug: string; label: string; href: string }[] = [
   { slug: "growth-automation", label: "Sales", href: "/sales" },
 ];
 
+type PillarVisuals = {
+  hero?: { src: string; width: number; height: number };
+  process?: { src: string; width: number; height: number };
+  capabilities?: { src: string; width: number; height: number };
+};
+
 export default function PillarLanding({
   serviceSlug,
+  visuals,
 }: {
   serviceSlug: Service["slug"];
+  visuals?: PillarVisuals;
 }) {
   const service = services.find((s) => s.slug === serviceSlug)!;
   const brand = pillarBrand[serviceSlug];
@@ -49,7 +58,7 @@ export default function PillarLanding({
         <ShieldBackdrop />
         <div className="pointer-events-none absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-brand-500/20 blur-3xl" />
         <Container className="relative">
-          {serviceSlug === "growth-automation" ? (
+          {serviceSlug === "growth-automation" || visuals?.hero ? (
             <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:items-center">
               <Reveal>
                 <div className="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-700">
@@ -75,7 +84,20 @@ export default function PillarLanding({
                 </div>
               </Reveal>
               <Reveal delay={150}>
-                <ConversationDemo />
+                {serviceSlug === "growth-automation" ? (
+                  <ConversationDemo />
+                ) : (
+                  visuals?.hero && (
+                    <FloatVisual
+                      src={visuals.hero.src}
+                      alt={`${brand.name} — ${service.title}`}
+                      width={visuals.hero.width}
+                      height={visuals.hero.height}
+                      priority
+                      className="mx-auto max-w-md lg:max-w-none"
+                    />
+                  )
+                )}
               </Reveal>
             </div>
           ) : (
@@ -172,13 +194,35 @@ export default function PillarLanding({
       {capabilities.length > 0 && (
         <Section3D className="bg-mist-100 py-20">
           <Container>
-            <Reveal>
-              <SectionHeading
-                eyebrow="Full Breakdown"
-                title={`Everything under ${brand.name}`}
-                description="The complete picture — every capability this pillar covers, not just the highlights."
-              />
-            </Reveal>
+            {visuals?.capabilities ? (
+              <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr]">
+                <Reveal>
+                  <SectionHeading
+                    eyebrow="Full Breakdown"
+                    title={`Everything under ${brand.name}`}
+                    description="The complete picture — every capability this pillar covers, not just the highlights."
+                    align="left"
+                  />
+                </Reveal>
+                <Reveal delay={120}>
+                  <FloatVisual
+                    src={visuals.capabilities.src}
+                    alt={`${brand.name} performance analytics`}
+                    width={visuals.capabilities.width}
+                    height={visuals.capabilities.height}
+                    className="mx-auto max-w-xs lg:max-w-sm"
+                  />
+                </Reveal>
+              </div>
+            ) : (
+              <Reveal>
+                <SectionHeading
+                  eyebrow="Full Breakdown"
+                  title={`Everything under ${brand.name}`}
+                  description="The complete picture — every capability this pillar covers, not just the highlights."
+                />
+              </Reveal>
+            )}
             <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {capabilities.map((group, i) => (
                 <Reveal key={group.title} delay={i * 80}>
@@ -212,12 +256,33 @@ export default function PillarLanding({
       {processSteps.length > 0 && (
         <Section3D className="py-20">
           <Container>
-            <Reveal>
-              <SectionHeading
-                eyebrow="How It Works"
-                title={`How ${brand.name} works`}
-              />
-            </Reveal>
+            {visuals?.process ? (
+              <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr]">
+                <Reveal>
+                  <SectionHeading
+                    eyebrow="How It Works"
+                    title={`How ${brand.name} works`}
+                    align="left"
+                  />
+                </Reveal>
+                <Reveal delay={120}>
+                  <FloatVisual
+                    src={visuals.process.src}
+                    alt={`${brand.name} lead capture funnel`}
+                    width={visuals.process.width}
+                    height={visuals.process.height}
+                    className="mx-auto max-w-xs lg:max-w-sm"
+                  />
+                </Reveal>
+              </div>
+            ) : (
+              <Reveal>
+                <SectionHeading
+                  eyebrow="How It Works"
+                  title={`How ${brand.name} works`}
+                />
+              </Reveal>
+            )}
             <div className="mt-14 grid gap-6 md:grid-cols-4">
               {processSteps.map((step, i) => (
                 <Reveal key={step.step} delay={i * 90}>

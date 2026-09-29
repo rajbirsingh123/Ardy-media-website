@@ -8,5 +8,18 @@ export const metadata: Metadata = {
 };
 
 export default function MediaPage() {
-  return <PillarLanding serviceSlug="digital-marketing" />;
+  return (
+    <PillarLanding
+      serviceSlug="digital-marketing"
+      visuals={{
+        hero: { src: "/media-visuals/social-hero.png", width: 732, height: 453 },
+        process: { src: "/media-visuals/lead-funnel.png", width: 590, height: 554 },
+        capabilities: {
+          src: "/media-visuals/analytics-dashboard.png",
+          width: 714,
+          height: 541,
+        },
+      }}
+    />
+  );
 }

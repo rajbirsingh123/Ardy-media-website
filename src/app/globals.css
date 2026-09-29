@@ -42,6 +42,21 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+.float-anim {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-anim {
+    animation: none;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
