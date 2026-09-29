@@ -4,6 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
 import FaqAccordion from "@/components/FaqAccordion";
 import ShieldBackdrop from "@/components/ShieldBackdrop";
+import Section3D from "@/components/Section3D";
 import { faqs, site } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -32,7 +33,7 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      <section className="pb-24">
+      <Section3D className="pb-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
@@ -85,16 +86,16 @@ export default function ContactPage() {
             <ContactForm />
           </div>
         </Container>
-      </section>
+      </Section3D>
 
-      <section className="bg-mist-100 py-24">
+      <Section3D className="bg-mist-100 py-24">
         <Container>
           <SectionHeading eyebrow="Questions" title="Frequently asked questions" />
           <div className="mt-12">
             <FaqAccordion items={faqs} />
           </div>
         </Container>
-      </section>
+      </Section3D>
     </>
   );
 }

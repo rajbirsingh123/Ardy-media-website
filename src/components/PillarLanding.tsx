@@ -3,6 +3,8 @@ import Container from "./Container";
 import Button from "./Button";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import Section3D from "./Section3D";
+import TiltCard from "./TiltCard";
 import FaqAccordion from "./FaqAccordion";
 import TrustedBy from "./TrustedBy";
 import ShieldBackdrop from "./ShieldBackdrop";
@@ -106,7 +108,7 @@ export default function PillarLanding({
 
       {/* Services list */}
       {serviceList.length > 0 && (
-        <section className="py-20">
+        <Section3D className="py-20">
           <Container>
             <Reveal>
               <SectionHeading eyebrow="Services" title={`${brand.name} services`} />
@@ -114,7 +116,7 @@ export default function PillarLanding({
             <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {serviceList.map((item, i) => (
                 <Reveal key={item.title} delay={i * 60}>
-                  <div className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift">
+                  <TiltCard className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift">
                     <span className="font-display text-2xl font-extrabold text-brand-100">
                       {String(i + 1).padStart(2, "0")}
                     </span>
@@ -124,16 +126,16 @@ export default function PillarLanding({
                     <p className="mt-2 text-sm leading-relaxed text-muted">
                       {item.description}
                     </p>
-                  </div>
+                  </TiltCard>
                 </Reveal>
               ))}
             </div>
           </Container>
-        </section>
+        </Section3D>
       )}
 
       {/* What's included / deliverables */}
-      <section className="py-20">
+      <Section3D className="py-20">
         <Container>
           <Reveal className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-line bg-white p-7 shadow-soft">
@@ -164,11 +166,11 @@ export default function PillarLanding({
             </div>
           </Reveal>
         </Container>
-      </section>
+      </Section3D>
 
       {/* Capabilities breakdown */}
       {capabilities.length > 0 && (
-        <section className="bg-mist-100 py-20">
+        <Section3D className="bg-mist-100 py-20">
           <Container>
             <Reveal>
               <SectionHeading
@@ -180,7 +182,7 @@ export default function PillarLanding({
             <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {capabilities.map((group, i) => (
                 <Reveal key={group.title} delay={i * 80}>
-                  <div className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift">
+                  <TiltCard className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift">
                     <h3 className="font-display text-base font-bold text-navy">
                       {group.title}
                     </h3>
@@ -198,17 +200,17 @@ export default function PillarLanding({
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </TiltCard>
                 </Reveal>
               ))}
             </div>
           </Container>
-        </section>
+        </Section3D>
       )}
 
       {/* Process */}
       {processSteps.length > 0 && (
-        <section className="py-20">
+        <Section3D className="py-20">
           <Container>
             <Reveal>
               <SectionHeading
@@ -219,7 +221,7 @@ export default function PillarLanding({
             <div className="mt-14 grid gap-6 md:grid-cols-4">
               {processSteps.map((step, i) => (
                 <Reveal key={step.step} delay={i * 90}>
-                  <div className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft">
+                  <TiltCard className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft">
                     <span className="font-display text-4xl font-extrabold text-brand-100">
                       {step.step}
                     </span>
@@ -229,12 +231,12 @@ export default function PillarLanding({
                     <p className="mt-2 text-sm leading-relaxed text-muted">
                       {step.description}
                     </p>
-                  </div>
+                  </TiltCard>
                 </Reveal>
               ))}
             </div>
           </Container>
-        </section>
+        </Section3D>
       )}
 
       {/* Trusted by */}
@@ -248,7 +250,7 @@ export default function PillarLanding({
 
       {/* FAQ */}
       {faqItems.length > 0 && (
-        <section className="py-20">
+        <Section3D className="py-20">
           <Container>
             <Reveal>
               <SectionHeading eyebrow="Questions" title={`${brand.name} FAQs`} />
@@ -257,7 +259,7 @@ export default function PillarLanding({
               <FaqAccordion items={faqItems} />
             </div>
           </Container>
-        </section>
+        </Section3D>
       )}
 
       {/* Cross-link to other pillars */}

@@ -5,6 +5,8 @@ import SectionHeading from "@/components/SectionHeading";
 import HeroCinematic from "@/components/HeroCinematic";
 import PillarSwitcher from "@/components/PillarSwitcher";
 import Reveal from "@/components/Reveal";
+import Section3D from "@/components/Section3D";
+import TiltCard from "@/components/TiltCard";
 import FaqAccordion from "@/components/FaqAccordion";
 import { ArrowRightIcon } from "@/components/Icons";
 import { faqs, industries, outcomes, whyUs } from "@/lib/content";
@@ -17,7 +19,7 @@ export default function Home() {
       <PillarSwitcher />
 
       {/* Why Ardy Media */}
-      <section className="py-24">
+      <Section3D className="py-24">
         <Container>
           <Reveal>
             <SectionHeading
@@ -29,7 +31,7 @@ export default function Home() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {whyUs.map((item, i) => (
               <Reveal key={item.title} delay={i * 80}>
-                <div className="h-full rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
+                <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
                   <span className="font-display text-2xl font-extrabold text-gold-600">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -37,7 +39,7 @@ export default function Home() {
                   <p className="mt-2 text-sm leading-relaxed text-muted">
                     {item.description}
                   </p>
-                </div>
+                </TiltCard>
               </Reveal>
             ))}
           </div>
@@ -47,10 +49,10 @@ export default function Home() {
             </Button>
           </Reveal>
         </Container>
-      </section>
+      </Section3D>
 
       {/* Industries we serve */}
-      <section id="industries" className="bg-mist-100 py-24">
+      <Section3D id="industries" className="bg-mist-100 py-24">
         <Container>
           <Reveal>
             <SectionHeading
@@ -63,22 +65,22 @@ export default function Home() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {industries.map((industry, i) => (
               <Reveal key={industry.name} delay={i * 80}>
-                <div className="h-full rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
+                <TiltCard className="h-full rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
                   <h3 className="font-display text-lg font-bold text-navy">
                     {industry.name}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">
                     {industry.description}
                   </p>
-                </div>
+                </TiltCard>
               </Reveal>
             ))}
           </div>
         </Container>
-      </section>
+      </Section3D>
 
       {/* Outcomes */}
-      <section className="bg-navy py-24">
+      <Section3D className="bg-navy py-24">
         <Container>
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
@@ -93,7 +95,7 @@ export default function Home() {
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {outcomes.map((item, i) => (
               <Reveal key={item.attribution} delay={i * 100}>
-                <div className="flex h-full flex-col rounded-2xl bg-white/5 p-7 ring-1 ring-white/10">
+                <TiltCard className="flex h-full flex-col rounded-2xl bg-white/5 p-7 ring-1 ring-white/10">
                   <span className="font-display text-3xl font-extrabold text-gold-300">
                     &ldquo;
                   </span>
@@ -103,15 +105,15 @@ export default function Home() {
                   <p className="mt-5 text-xs font-bold uppercase tracking-wider text-white/40">
                     {item.attribution}
                   </p>
-                </div>
+                </TiltCard>
               </Reveal>
             ))}
           </div>
         </Container>
-      </section>
+      </Section3D>
 
       {/* FAQ */}
-      <section className="py-24">
+      <Section3D className="py-24">
         <Container>
           <Reveal>
             <SectionHeading eyebrow="Questions" title="Frequently asked questions" />
@@ -128,7 +130,7 @@ export default function Home() {
             </Link>
           </Reveal>
         </Container>
-      </section>
+      </Section3D>
     </>
   );
 }

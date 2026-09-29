@@ -3,6 +3,8 @@ import Container from "@/components/Container";
 import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+import Section3D from "@/components/Section3D";
+import TiltCard from "@/components/TiltCard";
 import ShieldBackdrop from "@/components/ShieldBackdrop";
 import { ArrowRightIcon } from "@/components/Icons";
 import { stats } from "@/lib/content";
@@ -50,7 +52,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="pb-24">
+      <Section3D className="pb-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -93,31 +95,29 @@ export default function AboutPage() {
             </div>
           </div>
         </Container>
-      </section>
+      </Section3D>
 
-      <section className="bg-mist-100 py-24">
+      <Section3D className="bg-mist-100 py-24">
         <Container>
           <SectionHeading eyebrow="What we believe" title="How we work, in practice" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {values.map((value, i) => (
-              <Reveal
-                key={value.title}
-                delay={i * 80}
-                className="rounded-2xl border border-line bg-white p-7 shadow-soft"
-              >
-                <h3 className="font-display text-lg font-bold text-navy">
-                  {value.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  {value.description}
-                </p>
+              <Reveal key={value.title} delay={i * 80}>
+                <TiltCard className="rounded-2xl border border-line bg-white p-7 shadow-soft">
+                  <h3 className="font-display text-lg font-bold text-navy">
+                    {value.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    {value.description}
+                  </p>
+                </TiltCard>
               </Reveal>
             ))}
           </div>
         </Container>
-      </section>
+      </Section3D>
 
-      <section className="py-24">
+      <Section3D className="py-24">
         <Container>
           <div className="rounded-3xl bg-gradient-to-br from-navy via-brand-900 to-brand-800 px-8 py-14 text-center shadow-lift sm:px-16">
             <h2 className="text-balance font-display text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
@@ -132,7 +132,7 @@ export default function AboutPage() {
             </Button>
           </div>
         </Container>
-      </section>
+      </Section3D>
     </>
   );
 }

@@ -4,6 +4,8 @@ import Container from "@/components/Container";
 import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+import Section3D from "@/components/Section3D";
+import TiltCard from "@/components/TiltCard";
 import ShieldBackdrop from "@/components/ShieldBackdrop";
 import { ArrowRightIcon, CheckIcon, iconMap } from "@/components/Icons";
 import { caseStudies, pillarRoutes, services, techCapabilities } from "@/lib/content";
@@ -32,7 +34,7 @@ export default function ServicesPage() {
         const Icon = iconMap[service.icon as keyof typeof iconMap];
         const reversed = i % 2 === 1;
         return (
-          <section
+          <Section3D
             id={service.slug}
             key={service.slug}
             className={`scroll-mt-24 py-20 ${i % 2 === 0 ? "" : "bg-mist-100"}`}
@@ -118,7 +120,7 @@ export default function ServicesPage() {
                       .filter((c) => c.serviceSlug === service.slug)
                       .map((group, gi) => (
                         <Reveal key={group.title} delay={gi * 80}>
-                          <div className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift">
+                          <TiltCard className="h-full rounded-2xl border border-line bg-white p-6 shadow-soft transition-shadow duration-300 hover:shadow-lift">
                             <h4 className="font-display text-base font-bold text-navy">
                               {group.title}
                             </h4>
@@ -136,7 +138,7 @@ export default function ServicesPage() {
                                 </li>
                               ))}
                             </ul>
-                          </div>
+                          </TiltCard>
                         </Reveal>
                       ))}
                   </div>
@@ -238,11 +240,11 @@ export default function ServicesPage() {
                   </Reveal>
                 ))}
             </Container>
-          </section>
+          </Section3D>
         );
       })}
 
-      <section className="pb-24">
+      <Section3D className="pb-24">
         <Container>
           <div className="rounded-3xl bg-gradient-to-br from-navy via-brand-900 to-brand-800 px-8 py-14 text-center shadow-lift sm:px-16">
             <h2 className="text-balance font-display text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
@@ -257,7 +259,7 @@ export default function ServicesPage() {
             </Button>
           </div>
         </Container>
-      </section>
+      </Section3D>
     </>
   );
 }
