@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import Container from "./Container";
-import Button from "./Button";
+import NeuralButton from "./NeuralButton";
 import ParticleHeading from "./ParticleHeading";
+import Reveal from "./Reveal";
+import SkyField from "./SkyField";
 import { ArrowRightIcon } from "./Icons";
 import { stats } from "@/lib/content";
 
@@ -336,7 +338,6 @@ function writeCard(
 export default function OrbHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const hintRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -456,11 +457,6 @@ export default function OrbHero() {
     let velPitch = 0;
     let yaw = 0;
     let pitch = 0;
-    let hasDragged = false;
-
-    function setHint(visible: boolean) {
-      if (hintRef.current) hintRef.current.style.opacity = visible ? "1" : "0";
-    }
 
     function onPointerDown(e: PointerEvent) {
       dragging = true;
@@ -481,10 +477,6 @@ export default function OrbHero() {
       velPitch = dy * 0.004;
       yaw += velYaw;
       pitch = Math.max(-1, Math.min(1, pitch + velPitch));
-      if (!hasDragged && (Math.abs(dx) > 2 || Math.abs(dy) > 2)) {
-        hasDragged = true;
-        setHint(false);
-      }
     }
     function endDrag(e: PointerEvent) {
       dragging = false;
@@ -522,7 +514,7 @@ export default function OrbHero() {
       }
     }
 
-    const AUTO = (Math.PI * 2) / 17;
+    const AUTO = (Math.PI * 2) / 26;
     const clock = new THREE.Clock();
     let rafId = 0;
     let visible = true;
@@ -592,11 +584,9 @@ export default function OrbHero() {
       renderer.render(scene, camera);
     }
 
-    const bootTimer = window.setTimeout(() => setHint(true), 250);
     tick();
 
     return () => {
-      window.clearTimeout(bootTimer);
       cancelAnimationFrame(rafId);
       ro.disconnect();
       io.disconnect();
@@ -613,12 +603,16 @@ export default function OrbHero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-navy">
+    <section className="relative overflow-hidden bg-[#01030a]">
       <div ref={containerRef} className="relative" style={{ height: "clamp(640px, 94vh, 940px)" }}>
         <div
           className="absolute inset-0"
-          style={{ background: "radial-gradient(900px 600px at 50% 46%, #154e9c 0%, #0b1d3a 70%)" }}
+          style={{
+            background:
+              "radial-gradient(900px 600px at 50% 46%, #0a1730 0%, #030812 55%, #000103 100%)",
+          }}
         />
+        <SkyField className="absolute inset-0" />
         <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full touch-none" aria-hidden="true" />
 
         {/* vignette so the centered copy stays legible over the sphere */}
@@ -626,47 +620,40 @@ export default function OrbHero() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(52% 48% at 50% 50%, rgba(11,29,58,0.97) 0%, rgba(11,29,58,0.8) 55%, transparent 85%)",
+              "radial-gradient(52% 48% at 50% 50%, rgba(1,3,10,0.97) 0%, rgba(1,3,10,0.8) 55%, transparent 85%)",
           }}
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy via-transparent to-navy/25" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#01030a] via-transparent to-[#01030a]/25" />
         <div
           className="pointer-events-none absolute inset-0 lg:hidden"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 0%, rgba(11,29,58,0.55) 14%, rgba(11,29,58,0.6) 85%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(1,3,10,0.55) 14%, rgba(1,3,10,0.6) 85%, transparent 100%)",
           }}
         />
-
-        <div
-          ref={hintRef}
-          className="pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-center text-xs font-medium text-white/70 opacity-0 ring-1 ring-white/10 backdrop-blur-md transition-opacity duration-700"
-        >
-          Drag to explore &middot; hover a card
-        </div>
 
         <div className="absolute inset-0 z-[2] flex items-center">
           <Container>
             <div
               className="text-center"
-              style={{ textShadow: "0 2px 28px rgba(11,29,58,0.95), 0 1px 3px rgba(11,29,58,0.9)" }}
+              style={{ textShadow: "0 2px 28px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.9)" }}
             >
-              <ParticleHeading
-                lines={["You do the real work.", "We run your marketing & tech."]}
-                className="mx-auto max-w-5xl"
-              />
-              <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
-                <Button href="/contact">
+              <Reveal>
+                <ParticleHeading
+                  lines={["You do the real work.", "We run your marketing & tech."]}
+                  mobileLines={["You do the", "real work.", "We run your", "marketing & tech."]}
+                  heightClassName="h-64 w-full sm:h-56 lg:h-72"
+                  className="mx-auto max-w-5xl"
+                />
+              </Reveal>
+              <Reveal delay={200} className="mx-auto mt-10 flex max-w-2xl flex-wrap justify-center gap-4">
+                <NeuralButton href="/contact" accent="gold">
                   Book a Free Strategy Call <ArrowRightIcon />
-                </Button>
-                <Button
-                  href="/services"
-                  variant="outline"
-                  className="!border-white/30 !bg-white/5 !text-white hover:!border-gold-300 hover:!text-gold-300"
-                >
+                </NeuralButton>
+                <NeuralButton href="/services" accent="ice">
                   See What We Do
-                </Button>
-              </div>
+                </NeuralButton>
+              </Reveal>
             </div>
           </Container>
         </div>

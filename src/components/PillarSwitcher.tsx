@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Container from "./Container";
 import ShieldMark from "./ShieldMark";
 import Reveal from "./Reveal";
 import Parallax from "./Parallax";
+import SkyField from "./SkyField";
+import NeuralButton from "./NeuralButton";
 import { pillarRoutes, services } from "@/lib/content";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 
@@ -15,14 +16,20 @@ export default function PillarSwitcher() {
   const Icon = iconMap[service.icon as keyof typeof iconMap];
 
   return (
-    <section id="pillars" className="relative scroll-mt-20 overflow-hidden bg-navy py-24">
+    <section id="pillars" className="relative scroll-mt-20 overflow-hidden bg-[#01030a] py-24">
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
+        }}
+      />
+      <SkyField className="absolute inset-0" />
       <Parallax
         speed={0.18}
         className="pointer-events-none absolute -right-24 top-1/2 h-[140%] w-auto -translate-y-1/2 sm:-right-10"
       >
         <ShieldMark className="h-full w-auto text-white/[0.05]" />
       </Parallax>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-navy via-navy/95 to-navy" />
 
       <Container className="relative z-10">
         <Reveal className="mx-auto max-w-2xl text-center">
@@ -82,13 +89,10 @@ export default function PillarSwitcher() {
             <p className="mt-4 text-balance leading-relaxed text-white/70">
               {service.description}
             </p>
-            <Link
-              href={pillarRoutes[service.slug]}
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-brand-800 px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all hover:shadow-lift hover:-translate-y-0.5"
-            >
+            <NeuralButton href={pillarRoutes[service.slug]} accent="gold" className="mt-7">
               Explore {service.pillar}
               <ArrowRightIcon />
-            </Link>
+            </NeuralButton>
           </div>
 
           <ul className="grid gap-3 sm:grid-cols-2">

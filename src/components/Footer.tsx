@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Logo from "./Logo";
+import ParticleHeading from "./ParticleHeading";
+import SkyField from "./SkyField";
 import { getBrandForPath, navLinks, pillarRoutes, services, site } from "@/lib/content";
 
 export default function Footer() {
@@ -12,8 +14,15 @@ export default function Footer() {
   const brand = getBrandForPath(pathname);
 
   return (
-    <footer className="mt-24 border-t border-line bg-navy text-white/80">
-      <Container className="py-14">
+    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-[#01030a] text-white/80">
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
+        }}
+      />
+      <SkyField className="absolute inset-0" />
+      <Container className="relative z-10 py-14">
         <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
             <Logo dark size={40} wordmark={brand.name.toUpperCase()} />
@@ -71,7 +80,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <ParticleHeading
+          lines={[brand.name.toUpperCase()]}
+          as="p"
+          heightClassName="h-14 w-full sm:h-20 lg:h-28"
+          className="mt-16 select-none"
+        />
+
+        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {year} Ardy Media. All rights reserved.</span>
           <span>{brand.name} — {brand.tagline}</span>
         </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Container from "./Container";
+import SkyField from "./SkyField";
 import { ArrowRightIcon, iconMap } from "./Icons";
 import { team } from "@/lib/content";
 
@@ -179,8 +180,15 @@ export default function TeamFilmstrip() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-navy py-20 sm:py-24">
-      <Container>
+    <section className="relative overflow-hidden bg-[#01030a] py-20 sm:py-24">
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
+        }}
+      />
+      <SkyField className="absolute inset-0" />
+      <Container className="relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
             Who Keeps It Running
@@ -196,7 +204,7 @@ export default function TeamFilmstrip() {
 
       <div
         ref={stageRef}
-        className="relative mt-14 h-[380px] cursor-grab touch-none select-none active:cursor-grabbing sm:h-[420px]"
+        className="relative z-10 mt-14 h-[380px] cursor-grab touch-none select-none active:cursor-grabbing sm:h-[420px]"
         style={{ perspective: "1450px" }}
       >
         <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
@@ -235,7 +243,7 @@ export default function TeamFilmstrip() {
         </div>
       </div>
 
-      <Container>
+      <Container className="relative z-10">
         <div className="mt-10 text-center">
           <Link
             href="/team"

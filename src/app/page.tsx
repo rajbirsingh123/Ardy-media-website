@@ -10,6 +10,7 @@ import Section3D from "@/components/Section3D";
 import TiltCard from "@/components/TiltCard";
 import Parallax from "@/components/Parallax";
 import FaqAccordion from "@/components/FaqAccordion";
+import SkyField from "@/components/SkyField";
 import { ArrowRightIcon } from "@/components/Icons";
 import { faqs, industries, outcomes, whyUs } from "@/lib/content";
 
@@ -88,12 +89,19 @@ export default function Home() {
       </Section3D>
 
       {/* Outcomes */}
-      <Section3D className="relative bg-navy py-24">
+      <Section3D className="relative overflow-hidden bg-[#01030a] py-24">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
+          }}
+        />
+        <SkyField className="absolute inset-0" />
         <Parallax
           speed={-0.2}
           className="pointer-events-none absolute -bottom-24 left-[-6%] h-80 w-80 rounded-full bg-brand-500/20 blur-3xl"
         />
-        <Container>
+        <Container className="relative z-10">
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
               <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">

@@ -13,18 +13,27 @@ type Particle = {
   size: number;
   offset: number;
   mask: number;
+  sparkleSpeed: number;
+  sparklePhase: number;
 };
 
 const FORMATS: Format[] = ["dot", "dot", "square"];
 const SIZE_SMALL: [number, number] = [1.0, 1.9];
 const SIZE_BIG: [number, number] = [2.1, 3.0];
 const BIG_CHANCE = 0.06;
-const BASE_GAP = 2.6;
+const BASE_GAP = 3.6;
+const LETTER_SPACING = 0.12;
 const SPEED = 1.4;
 const SEED = 1337;
 const GAMMA = 0.8;
 const DUR = 8;
 const TAU = Math.PI * 2;
+const INTRO_DURATION = 900;
+const INTRO_STAGGER = 550;
+
+function easeOutCubic(x: number) {
+  return 1 - Math.pow(1 - x, 3);
+}
 
 function noise(x: number, y: number, t: number) {
   const a = x + 0.7 * Math.sin(1.2 * y + t);
@@ -50,6 +59,14 @@ function squall(p: Particle, t: number) {
   return Math.max(0, Math.min(1, 0.04 + 0.95 * band * Math.pow(flake, 1.8)));
 }
 
+// Diamond-catching-light glint: each particle twinkles on its own clock, so
+// flashes pop independently across the shape instead of as one traveling wave.
+function glint(p: Particle, t: number) {
+  const phase = p.sparklePhase + t * p.sparkleSpeed * 0.6;
+  const raw = Math.sin(phase) * Math.sin(phase * 1.37 + p.offset * 6.1);
+  return Math.pow(Math.max(0, raw), 11);
+}
+
 function lcg(seed: number) {
   let e = seed >>> 0;
   return function random() {
@@ -58,12 +75,20 @@ function lcg(seed: number) {
   };
 }
 
+const MOBILE_BREAKPOINT = 640;
+
 export default function ParticleHeading({
   lines,
+  mobileLines,
   className = "",
+  heightClassName = "h-44 w-full sm:h-56 lg:h-72",
+  as: As = "h1",
 }: {
-  lines: [string, string];
+  lines: string[];
+  mobileLines?: string[];
   className?: string;
+  heightClassName?: string;
+  as?: "h1" | "p";
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -101,26 +126,49 @@ export default function ParticleHeading({
       gctx.fillRect(0, 0, 64, 64);
     }
 
-    function buildMask(w: number, h: number) {
+    function buildMask(w: number, h: number, sourceLines: string[]) {
+      const activeLines = sourceLines.map((line) => line.toUpperCase());
       const off = document.createElement("canvas");
       off.width = w;
       off.height = h;
-      const g = off.getContext("2d");
-      if (!g) return null;
+      const ctx2d = off.getContext("2d");
+      if (!ctx2d) return null;
+      const g: CanvasRenderingContext2D = ctx2d;
       g.fillStyle = "#fff";
       g.textAlign = "center";
       g.textBaseline = "middle";
 
-      const maxWidth = w * 0.98;
-      let fontSize = h * 0.46;
+      const maxWidth = w * 0.94;
+      let fontSize = h * (activeLines.length > 1 ? 0.46 : 0.54);
       g.font = `800 ${fontSize}px Arial, "Helvetica Neue", sans-serif`;
-      const widest = Math.max(g.measureText(lines[0]).width, g.measureText(lines[1]).width, 1);
+
+      function measureLine(line: string) {
+        const chars = Array.from(line);
+        const base = chars.reduce((sum, ch) => sum + g.measureText(ch).width, 0);
+        return base + LETTER_SPACING * fontSize * Math.max(0, chars.length - 1);
+      }
+
+      const widest = Math.max(...activeLines.map(measureLine), 1);
       if (widest > maxWidth) fontSize *= maxWidth / widest;
       g.font = `800 ${fontSize}px Arial, "Helvetica Neue", sans-serif`;
 
-      const lineGap = fontSize * 1.15;
-      g.fillText(lines[0], w / 2, h / 2 - lineGap / 2);
-      g.fillText(lines[1], w / 2, h / 2 + lineGap / 2);
+      function drawSpacedLine(line: string, cy: number) {
+        const chars = Array.from(line);
+        const spacing = LETTER_SPACING * fontSize;
+        const widths = chars.map((ch) => g.measureText(ch).width);
+        const total = widths.reduce((a, b) => a + b, 0) + spacing * Math.max(0, chars.length - 1);
+        g.textAlign = "left";
+        let x = w / 2 - total / 2;
+        chars.forEach((ch, i) => {
+          g.fillText(ch, x, cy);
+          x += widths[i] + spacing;
+        });
+        g.textAlign = "center";
+      }
+
+      const lineGap = fontSize * (activeLines.length > 1 ? 1.25 : 1.15);
+      const startY = h / 2 - ((activeLines.length - 1) * lineGap) / 2;
+      activeLines.forEach((line, i) => drawSpacedLine(line, startY + i * lineGap));
       let data: ImageData;
       try {
         data = g.getImageData(0, 0, w, h);
@@ -147,9 +195,10 @@ export default function ParticleHeading({
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const sample = buildMask(w, h);
+      const sourceLines = mobileLines && w < MOBILE_BREAKPOINT ? mobileLines : lines;
+      const sample = buildMask(w, h, sourceLines);
       const rand = lcg(SEED);
-      const gap = Math.max(1.5, Math.min(BASE_GAP, w / 260));
+      const gap = Math.max(2, Math.min(BASE_GAP, w / 220));
       const sizeScale = gap / BASE_GAP;
       const cols = Math.ceil(w / gap);
       const rows = Math.ceil(h / gap);
@@ -172,58 +221,88 @@ export default function ParticleHeading({
             size: (range[0] + rand() * (range[1] - range[0])) * sizeScale,
             offset: rand(),
             mask: m,
+            sparkleSpeed: 0.5 + rand() * 2.4,
+            sparklePhase: rand() * TAU,
           });
         }
       }
       particles = next;
     }
 
-    function draw(p: Particle, t: number) {
+    function draw(p: Particle, t: number, introElapsed: number) {
+      const introRaw = (introElapsed - p.offset * INTRO_STAGGER) / INTRO_DURATION;
+      const intro = easeOutCubic(Math.max(0, Math.min(1, introRaw)));
+      if (intro <= 0) return;
+
       const shimmer = squall(p, t);
-      // Legible floor so the shape always reads; shimmer only adds sparkle on top.
-      const alpha = p.mask * (0.78 + 0.22 * shimmer);
+      const spark = glint(p, t);
+      // Legible floor so the shape always reads; shimmer + glint layer sparkle on top.
+      const alpha = p.mask * (0.78 + 0.22 * shimmer) * intro;
       if (alpha <= 0.02) return;
-      const r = p.size / 2;
+      const r = (p.size / 2) * (0.5 + 0.5 * intro);
 
       // Starlight glow: a pre-rendered radial sprite scaled per particle, tinted via alpha.
+      // Peaks of `spark` blow the glow out wider and brighter for a diamond-catching-light flash.
       if (gctx) {
-        const glowR = r * 4.2;
-        ctx.globalAlpha = Math.min(1, alpha * 0.85);
+        const glowR = r * (4.2 + spark * 2);
+        ctx.globalAlpha = Math.min(1, alpha * 0.85 + spark * 0.22);
         ctx.drawImage(glowSprite, p.cx - glowR, p.cy - glowR, glowR * 2, glowR * 2);
         ctx.globalAlpha = 1;
       }
 
-      // Bright crisp core on top so the letterforms stay sharp, not just glowy.
-      const coreAlpha = Math.min(1, alpha * 1.35);
-      ctx.fillStyle = `rgba(255,255,255,${coreAlpha})`;
-      if (p.format === "square") ctx.fillRect(p.cx - r, p.cy - r, p.size, p.size);
+      // Bright crisp core on top so the letterforms stay sharp, not just glowy;
+      // flashes cool toward icy-blue-white, like light glinting off a facet.
+      const coreAlpha = Math.min(1, alpha * 1.35 + spark * 0.2);
+      const g = Math.round(255 - spark * 5);
+      const b = Math.round(255);
+      ctx.fillStyle = `rgba(255,${g},${b},${coreAlpha})`;
+      const cr = r * (1 + spark * 0.35);
+      if (p.format === "square") ctx.fillRect(p.cx - cr, p.cy - cr, cr * 2, cr * 2);
       else {
         ctx.beginPath();
-        ctx.arc(p.cx, p.cy, r, 0, TAU);
+        ctx.arc(p.cx, p.cy, cr, 0, TAU);
         ctx.fill();
+      }
+
+      // Four-point glint spike on the rare brightest peaks — the classic diamond sparkle.
+      if (spark > 0.9) {
+        const spikeAlpha = (spark - 0.9) / 0.1;
+        const len = r * (2.5 + spark * 2.5);
+        ctx.strokeStyle = `rgba(255,255,255,${spikeAlpha * 0.45})`;
+        ctx.lineWidth = Math.max(0.5, r * 0.22);
+        ctx.beginPath();
+        ctx.moveTo(p.cx - len, p.cy);
+        ctx.lineTo(p.cx + len, p.cy);
+        ctx.moveTo(p.cx, p.cy - len);
+        ctx.lineTo(p.cx, p.cy + len);
+        ctx.stroke();
       }
     }
 
-    function render(t: number) {
+    function render(t: number, introElapsed: number) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = "lighter";
-      for (const p of particles) draw(p, t);
+      for (const p of particles) draw(p, t, introElapsed);
       ctx.globalCompositeOperation = "source-over";
     }
+
+    const introStart = performance.now();
+    const introDone = INTRO_DURATION + INTRO_STAGGER;
 
     function tick(now: number) {
       rafId = requestAnimationFrame(tick);
       if (!visible) return;
+      const introElapsed = reduced ? introDone : now - introStart;
       if (reduced) {
-        render(2);
+        render(2, introElapsed);
         return;
       }
       tNow = ((now - t0) / 1000) % DUR;
-      render(tNow * SPEED);
+      render(tNow * SPEED, introElapsed);
     }
 
     rebuild();
-    render(reduced ? 2 : 0);
+    render(reduced ? 2 : 0, reduced ? introDone : 0);
     rafId = requestAnimationFrame(tick);
 
     const ro = new ResizeObserver(() => {
@@ -242,14 +321,12 @@ export default function ParticleHeading({
       ro.disconnect();
       io.disconnect();
     };
-  }, [lines]);
+  }, [lines, mobileLines]);
 
   return (
     <div className={className}>
-      <h1 className="sr-only">
-        {lines[0]} {lines[1]}
-      </h1>
-      <div ref={hostRef} aria-hidden="true" className="h-44 w-full sm:h-56 lg:h-72">
+      <As className="sr-only">{lines.join(" ")}</As>
+      <div ref={hostRef} aria-hidden="true" className={heightClassName}>
         <canvas ref={canvasRef} className="block h-full w-full" />
       </div>
     </div>
