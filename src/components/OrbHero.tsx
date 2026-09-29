@@ -612,7 +612,6 @@ export default function OrbHero() {
   }, []);
 
   const stage = heroStages[0];
-  const badge = stats[1] ?? stats[0];
 
   return (
     <section className="relative overflow-hidden bg-navy">
@@ -659,11 +658,6 @@ export default function OrbHero() {
               <h1 className="text-balance font-display text-4xl font-extrabold leading-[1.08] text-white sm:text-5xl lg:text-[3.4rem]">
                 {stage.heading} <span className="text-gold-300">{stage.headingAccent}</span>
               </h1>
-              <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white/80 ring-1 ring-white/10">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                {badge.value} {badge.label}
-              </div>
-              <p className="mx-auto mt-4 max-w-lg text-balance leading-relaxed text-white/70">{stage.body}</p>
               <div className="mt-7 flex flex-wrap justify-center gap-3">
                 <Button href="/contact">
                   Book a Free Strategy Call <ArrowRightIcon />

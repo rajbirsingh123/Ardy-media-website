@@ -3,6 +3,7 @@ import Container from "@/components/Container";
 import Button from "@/components/Button";
 import SectionHeading from "@/components/SectionHeading";
 import OrbHero from "@/components/OrbHero";
+import TeamFilmstrip from "@/components/TeamFilmstrip";
 import PillarSwitcher from "@/components/PillarSwitcher";
 import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
@@ -16,6 +17,8 @@ export default function Home() {
   return (
     <>
       <OrbHero />
+
+      <TeamFilmstrip />
 
       <PillarSwitcher />
 
