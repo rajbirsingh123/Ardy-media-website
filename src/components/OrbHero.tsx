@@ -2,11 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import Image from "next/image";
 import Container from "./Container";
 import Button from "./Button";
 import { ArrowRightIcon } from "./Icons";
-import { heroStages, stats, trustedCompanies } from "@/lib/content";
+import { heroStages, stats } from "@/lib/content";
 
 /* ---------------------------------------------------------------------
  * Seeded PRNG — deterministic card layout, so the sphere reads the same
@@ -668,27 +667,6 @@ export default function OrbHero() {
                   >
                     See What We Do
                   </Button>
-                </div>
-                <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-white/40">
-                    Trusted by
-                  </span>
-                  {trustedCompanies.map((c) => (
-                    <span key={c.name} className="flex items-center gap-2 text-sm font-medium text-white/70">
-                      {c.logo && (
-                        <span className="grid h-6 w-6 place-items-center overflow-hidden rounded-full bg-white/90">
-                          <Image
-                            src={c.logo.src}
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="h-4 w-4 object-contain"
-                          />
-                        </span>
-                      )}
-                      {c.name}
-                    </span>
-                  ))}
                 </div>
               </div>
             </div>
