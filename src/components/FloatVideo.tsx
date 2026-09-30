@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import TiltCard from "./TiltCard";
 
 export default function FloatVideo({
@@ -15,6 +16,13 @@ export default function FloatVideo({
   dark?: boolean;
   speed?: number;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) video.playbackRate = speed;
+  }, [speed]);
+
   return (
     <div className={`relative float-anim ${className}`}>
       {stage && (
@@ -39,6 +47,7 @@ export default function FloatVideo({
       )}
       <TiltCard className="overflow-hidden rounded-2xl drop-shadow-2xl">
         <video
+          ref={videoRef}
           src={src}
           autoPlay
           loop

@@ -16,6 +16,7 @@ import RoiCalculator from "./RoiCalculator";
 import Testimonials from "./Testimonials";
 import StoryFlow from "./StoryFlow";
 import FloatVideo from "./FloatVideo";
+import ProcessFilmstrip from "./ProcessFilmstrip";
 import SectionConnector from "./SectionConnector";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 import {
@@ -88,94 +89,6 @@ export default function PillarLanding({
         />
         <SkyField className="absolute inset-0" />
       </div>
-
-      {/* Process */}
-      {processSteps.length > 0 && (
-        <Section3D className="py-20">
-          <Container className="relative z-10">
-            {processStory ? (
-              <div
-                className={`grid items-center gap-10 ${
-                  processVideo ? "lg:grid-cols-[0.8fr_1.2fr]" : "lg:grid-cols-[1fr_0.9fr]"
-                }`}
-              >
-                <Reveal>
-                  <SectionHeading
-                    dark
-                    eyebrow="How It Works"
-                    title={`How ${brand.name} helps to grow your business?`}
-                    align="left"
-                  />
-                  <div className="mt-8 flex flex-wrap gap-4">
-                    <NeuralButton href="/contact" accent="gold">
-                      Talk to us about {brand.name}
-                      <ArrowRightIcon />
-                    </NeuralButton>
-                    <NeuralButton href="/services" accent="ice">
-                      See all services
-                    </NeuralButton>
-                  </div>
-                </Reveal>
-                <Reveal delay={120}>
-                  {processVideo ? (
-                    <FloatVideo
-                      src={processVideo}
-                      dark
-                      className="mx-auto max-w-2xl lg:max-w-none"
-                    />
-                  ) : (
-                    <StoryFlow />
-                  )}
-                </Reveal>
-              </div>
-            ) : visuals?.process ? (
-              <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr]">
-                <Reveal>
-                  <SectionHeading
-                    dark
-                    eyebrow="How It Works"
-                    title={`How ${brand.name} works`}
-                    align="left"
-                  />
-                </Reveal>
-                <Reveal delay={120}>
-                  <FloatVisual
-                    src={visuals.process.src}
-                    alt={`${brand.name} lead capture funnel`}
-                    width={visuals.process.width}
-                    height={visuals.process.height}
-                    dark
-                    stage={{ index: "02", label: "Convert" }}
-                    className="mx-auto max-w-xs lg:max-w-sm"
-                  />
-                </Reveal>
-              </div>
-            ) : (
-              <Reveal>
-                <SectionHeading
-                  dark
-                  eyebrow="How It Works"
-                  title={`How ${brand.name} works`}
-                />
-              </Reveal>
-            )}
-            <div className="mt-14 grid gap-6 md:grid-cols-4">
-              {processSteps.map((step, i) => (
-                <Reveal key={step.step} delay={i * 90}>
-                  <TiltCard className="h-full rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
-                    <h3 className="font-display text-lg font-bold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/60">
-                      {step.description}
-                    </p>
-                  </TiltCard>
-                </Reveal>
-              ))}
-            </div>
-          </Container>
-        </Section3D>
-      )}
 
       {/* Hero */}
       <section className="relative overflow-hidden py-20 sm:py-28">
@@ -271,6 +184,74 @@ export default function PillarLanding({
           )}
         </Container>
       </section>
+
+      {/* Process */}
+      {processSteps.length > 0 && (
+        <Section3D className="py-20">
+          <Container className="relative z-10">
+            {processStory ? (
+              <div
+                className={`grid items-center gap-10 ${
+                  processVideo ? "lg:grid-cols-[0.8fr_1.2fr]" : "lg:grid-cols-[1fr_0.9fr]"
+                }`}
+              >
+                <Reveal>
+                  <SectionHeading
+                    dark
+                    eyebrow="How It Works"
+                    title={`How ${brand.name} helps to grow your business?`}
+                    align="left"
+                  />
+                </Reveal>
+                <Reveal delay={120}>
+                  {processVideo ? (
+                    <FloatVideo
+                      src={processVideo}
+                      dark
+                      className="mx-auto max-w-2xl lg:max-w-none"
+                    />
+                  ) : (
+                    <StoryFlow />
+                  )}
+                </Reveal>
+              </div>
+            ) : visuals?.process ? (
+              <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.8fr]">
+                <Reveal>
+                  <SectionHeading
+                    dark
+                    eyebrow="How It Works"
+                    title={`How ${brand.name} works`}
+                    align="left"
+                  />
+                </Reveal>
+                <Reveal delay={120}>
+                  <FloatVisual
+                    src={visuals.process.src}
+                    alt={`${brand.name} lead capture funnel`}
+                    width={visuals.process.width}
+                    height={visuals.process.height}
+                    dark
+                    stage={{ index: "02", label: "Convert" }}
+                    className="mx-auto max-w-xs lg:max-w-sm"
+                  />
+                </Reveal>
+              </div>
+            ) : (
+              <Reveal>
+                <SectionHeading
+                  dark
+                  eyebrow="How It Works"
+                  title={`How ${brand.name} works`}
+                />
+              </Reveal>
+            )}
+            <div className="mt-14">
+              <ProcessFilmstrip steps={processSteps} />
+            </div>
+          </Container>
+        </Section3D>
+      )}
 
       {/* Stat highlights */}
       {highlights.length > 0 && (

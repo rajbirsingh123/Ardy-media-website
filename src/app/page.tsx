@@ -2,7 +2,6 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
 import OrbHero from "@/components/OrbHero";
-import TeamFilmstrip from "@/components/TeamFilmstrip";
 import PillarSwitcher from "@/components/PillarSwitcher";
 import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
@@ -10,8 +9,11 @@ import TiltCard from "@/components/TiltCard";
 import Parallax from "@/components/Parallax";
 import FaqAccordion from "@/components/FaqAccordion";
 import SkyField from "@/components/SkyField";
+import FloatVideo from "@/components/FloatVideo";
+import ProcessFilmstrip from "@/components/ProcessFilmstrip";
+import NeuralButton from "@/components/NeuralButton";
 import { ArrowRightIcon } from "@/components/Icons";
-import { faqs, industries, outcomes, whyUs } from "@/lib/content";
+import { faqs, industries, outcomes, pillarProcess, whyUs } from "@/lib/content";
 
 export default function Home() {
   return (
@@ -28,7 +30,40 @@ export default function Home() {
 
       <OrbHero />
 
-      <TeamFilmstrip />
+      {/* How It Works */}
+      <Section3D className="relative py-24">
+        <Container className="relative z-10">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <Reveal>
+              <SectionHeading
+                dark
+                eyebrow="How It Works"
+                title="How Ardy Media helps to grow your business?"
+                align="left"
+              />
+              <div className="mt-8 flex flex-wrap gap-4">
+                <NeuralButton href="/contact" accent="gold">
+                  Talk to us about Ardy Media
+                  <ArrowRightIcon />
+                </NeuralButton>
+                <NeuralButton href="/services" accent="ice">
+                  See all services
+                </NeuralButton>
+              </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <FloatVideo
+                src="/videos/ardy-crm-flow.webm"
+                dark
+                className="mx-auto max-w-2xl lg:max-w-none"
+              />
+            </Reveal>
+          </div>
+          <div className="mt-14">
+            <ProcessFilmstrip steps={pillarProcess["digital-marketing"]} />
+          </div>
+        </Container>
+      </Section3D>
 
       <PillarSwitcher />
 
