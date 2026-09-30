@@ -89,6 +89,14 @@ export function MenuIcon({ className = base }: IconProps) {
   );
 }
 
+export function LinkedInIcon({ className = base }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M6.94 5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.4 8.75h3.48V21H3.4V8.75Zm6.06 0h3.34v1.68h.05c.47-.87 1.6-1.79 3.3-1.79 3.53 0 4.18 2.28 4.18 5.24V21h-3.48v-5.5c0-1.31-.02-3-1.85-3-1.85 0-2.14 1.42-2.14 2.9V21H9.46V8.75Z" />
+    </svg>
+  );
+}
+
 export function CloseIcon({ className = base }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>

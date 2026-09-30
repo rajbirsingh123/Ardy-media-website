@@ -5,17 +5,22 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import Section3D from "@/components/Section3D";
 import TiltCard from "@/components/TiltCard";
+import TeamMemberCard from "@/components/TeamMemberCard";
 import ShieldBackdrop from "@/components/ShieldBackdrop";
-import { ArrowRightIcon, CheckIcon, iconMap } from "@/components/Icons";
-import { team, teamPrinciples } from "@/lib/content";
+import { ArrowRightIcon } from "@/components/Icons";
+import { teamMembers, teamPrinciples } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Team",
   description:
-    "The small, senior team behind Ardy Media — strategy, paid media, product & engineering, and automation, working as one unit.",
+    "Meet the leadership and team behind Ardy Media — the people running strategy, technology, sales and operations for every client engagement.",
 };
 
 export default function TeamPage() {
+  const leadership = teamMembers.filter((m) => m.tier === "leadership");
+  const management = teamMembers.filter((m) => m.tier === "management");
+  const supportTeam = teamMembers.filter((m) => m.tier === "team");
+
   return (
     <>
       <section className="relative overflow-hidden bg-grid py-20 sm:py-24">
@@ -23,51 +28,59 @@ export default function TeamPage() {
         <Container className="relative">
           <SectionHeading
             eyebrow="The Team"
-            title="A small, senior team — not a rotating cast of subcontractors"
-            description="Every engagement is staffed by the same four functions, working together instead of handing off. Here's what each one owns."
+            title="The people behind Ardy Media"
+            description="A small, senior team running strategy, technology, sales and operations for every client — not a rotating cast of subcontractors."
           />
         </Container>
       </section>
 
       <Section3D className="pb-20">
         <Container>
-          <div className="grid gap-6 sm:grid-cols-2">
-            {team.map((group, i) => {
-              const Icon = iconMap[group.icon as keyof typeof iconMap];
-              return (
-                <Reveal key={group.slug} delay={i * 80}>
-                  <TiltCard className="flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-soft transition-shadow duration-300 hover:shadow-lift">
-                    <div className="flex items-center gap-4">
-                      <div className="grid h-14 w-14 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-soft">
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <h3 className="font-display text-lg font-bold text-navy">
-                          {group.focus}
-                        </h3>
-                        <p className="text-sm font-medium text-brand-700">
-                          {group.role}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="mt-4 text-sm leading-relaxed text-muted">
-                      {group.description}
-                    </p>
-                    <ul className="mt-5 space-y-2 border-t border-line pt-4">
-                      {group.responsibilities.map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-2.5 text-sm text-ink/80"
-                        >
-                          <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-600" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </TiltCard>
-                </Reveal>
-              );
-            })}
+          <Reveal>
+            <h2 className="font-display text-sm font-bold uppercase tracking-wider text-brand-700">
+              Leadership
+            </h2>
+          </Reveal>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {leadership.map((member, i) => (
+              <Reveal key={member.slug} delay={i * 80}>
+                <TeamMemberCard member={member} />
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section3D>
+
+      <Section3D className="pb-20">
+        <Container>
+          <Reveal>
+            <h2 className="font-display text-sm font-bold uppercase tracking-wider text-brand-700">
+              Department Heads
+            </h2>
+          </Reveal>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {management.map((member, i) => (
+              <Reveal key={member.slug} delay={i * 80}>
+                <TeamMemberCard member={member} />
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section3D>
+
+      <Section3D className="pb-20">
+        <Container>
+          <Reveal>
+            <h2 className="font-display text-sm font-bold uppercase tracking-wider text-brand-700">
+              Operations & Finance
+            </h2>
+          </Reveal>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:max-w-2xl">
+            {supportTeam.map((member, i) => (
+              <Reveal key={member.slug} delay={i * 80}>
+                <TeamMemberCard member={member} />
+              </Reveal>
+            ))}
           </div>
         </Container>
       </Section3D>

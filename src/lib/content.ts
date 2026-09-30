@@ -122,6 +122,92 @@ export const team: TeamGroup[] = [
   },
 ];
 
+export type TeamMember = {
+  slug: string;
+  name: string;
+  role: string;
+  tier: "leadership" | "management" | "team";
+  photo?: { src: string; width: number; height: number };
+  linkedin?: string;
+  bio: string;
+};
+
+export const teamMembers: TeamMember[] = [
+  {
+    slug: "sarabjit-singh",
+    name: "Sarabjit Singh",
+    role: "Chief Executive Officer",
+    tier: "leadership",
+    photo: { src: "/team/sarabjit-singh.jpg", width: 360, height: 360 },
+    linkedin: "https://www.linkedin.com/in/sarabjit-singh-98a44620/",
+    bio: "Sarabjit sets the direction for Ardy Media and leads the strategy behind every client engagement — the connective layer between marketing, technology and the CRM systems that turn attention into revenue. He's the first call on a new partnership and the one holding the whole system accountable to results.",
+  },
+  {
+    slug: "pavit-paul",
+    name: "Pavit Paul",
+    role: "Chief Financial Officer",
+    tier: "leadership",
+    photo: { src: "/team/pavit-paul.jpg", width: 800, height: 800 },
+    linkedin: "https://www.linkedin.com/in/pavit-paul/",
+    bio: "Pavit runs the financial engine behind Ardy Media — budgeting, forecasting and the numbers that keep client campaigns and internal operations honest. He makes sure growth is funded sustainably, not just chased.",
+  },
+  {
+    slug: "ishaan-sandhu",
+    name: "Ishaan Sandhu",
+    role: "Chief Information Officer",
+    tier: "leadership",
+    photo: { src: "/team/ishaan-sandhu.jpg", width: 1024, height: 1024 },
+    linkedin: "https://www.linkedin.com/in/ishaan-sandhu-29a28522a/",
+    bio: "Ishaan owns the technology architecture across Ardy Media — the CRM systems, integrations and infrastructure that keep every client's marketing, sales and automation stack talking to each other. He's focused on building systems that scale without breaking.",
+  },
+  {
+    slug: "rajbir-singh",
+    name: "Rajbir Singh",
+    role: "Head of Technology",
+    tier: "management",
+    photo: { src: "/team/rajbir-singh.jpg", width: 1066, height: 1600 },
+    linkedin: "https://www.linkedin.com/in/rajbir-singh-5233251a6/",
+    bio: "Rajbir leads the engineering team building the websites, apps and CRM systems Ardy Media ships for clients — turning strategy into working software, from the first line of code to launch. He stays hands-on with every build rather than managing from a distance.",
+  },
+  {
+    slug: "navpreet-kaur",
+    name: "Navpreet Kaur",
+    role: "Head of Operations",
+    tier: "management",
+    photo: { src: "/team/navpreet-kaur.jpg", width: 1024, height: 1536 },
+    bio: "Navpreet keeps Ardy Media's engagements running on schedule — coordinating between strategy, media, product and automation so nothing falls through the cracks between teams. She's the reason client timelines hold.",
+  },
+  {
+    slug: "hasmukh-sran",
+    name: "Hasmukh Sran",
+    role: "Head of Sales",
+    tier: "management",
+    bio: "Hasmukh leads new business at Ardy Media, running the first conversations with prospective clients and translating what a business actually needs into the right mix of media, technology and automation. He's focused on fit over volume.",
+  },
+  {
+    slug: "opinder-singh",
+    name: "Opinder Singh",
+    role: "Head of Content & Marketing",
+    tier: "management",
+    bio: "Opinder shapes how Ardy Media shows up — the content, positioning and campaigns that bring in the clients the team wants to work with. He holds the agency's own marketing to the same standard applied to client work.",
+  },
+  {
+    slug: "varun-kapoor",
+    name: "Varun Kapoor",
+    role: "Accountant",
+    tier: "team",
+    photo: { src: "/team/varun-kapoor.jpg", width: 640, height: 641 },
+    bio: "Varun manages day-to-day accounting at Ardy Media — billing, expenses and financial reporting kept accurate and on schedule so the rest of the team can focus on client work.",
+  },
+  {
+    slug: "reena-kaur",
+    name: "Reena Kaur",
+    role: "Office Administrator",
+    tier: "team",
+    bio: "Reena keeps Ardy Media's office running — scheduling, vendor coordination and the everyday operations that let the team stay focused on client work instead of admin.",
+  },
+];
+
 export const teamPrinciples = [
   {
     title: "Small on purpose",
