@@ -134,13 +134,13 @@ export type TeamMember = {
 
 export const teamMembers: TeamMember[] = [
   {
-    slug: "sarabjit-singh",
-    name: "Sarabjit Singh",
+    slug: "ishaan-sandhu",
+    name: "Ishaan Sandhu",
     role: "Chief Executive Officer",
     tier: "leadership",
-    photo: { src: "/team/sarabjit-singh.jpg", width: 360, height: 360 },
-    linkedin: "https://www.linkedin.com/in/sarabjit-singh-98a44620/",
-    bio: "Sarabjit sets the direction for Ardy Media and leads the strategy behind every client engagement — the connective layer between marketing, technology and the CRM systems that turn attention into revenue. He's the first call on a new partnership and the one holding the whole system accountable to results.",
+    photo: { src: "/team/ishaan-sandhu.jpg", width: 1024, height: 1024 },
+    linkedin: "https://www.linkedin.com/in/ishaan-sandhu-29a28522a/",
+    bio: "Ishaan sets the direction for Ardy Media and leads the strategy behind every client engagement — the connective layer between marketing, technology and the CRM systems that turn attention into revenue. He's the first call on a new partnership and the one holding the whole system accountable to results.",
   },
   {
     slug: "pavit-paul",
@@ -150,15 +150,6 @@ export const teamMembers: TeamMember[] = [
     photo: { src: "/team/pavit-paul.jpg", width: 800, height: 800 },
     linkedin: "https://www.linkedin.com/in/pavit-paul/",
     bio: "Pavit runs the financial engine behind Ardy Media — budgeting, forecasting and the numbers that keep client campaigns and internal operations honest. He makes sure growth is funded sustainably, not just chased.",
-  },
-  {
-    slug: "ishaan-sandhu",
-    name: "Ishaan Sandhu",
-    role: "Chief Information Officer",
-    tier: "leadership",
-    photo: { src: "/team/ishaan-sandhu.jpg", width: 1024, height: 1024 },
-    linkedin: "https://www.linkedin.com/in/ishaan-sandhu-29a28522a/",
-    bio: "Ishaan owns the technology architecture across Ardy Media — the CRM systems, integrations and infrastructure that keep every client's marketing, sales and automation stack talking to each other. He's focused on building systems that scale without breaking.",
   },
   {
     slug: "rajbir-singh",

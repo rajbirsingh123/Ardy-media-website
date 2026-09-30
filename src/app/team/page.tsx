@@ -52,9 +52,13 @@ export default function TeamPage() {
               Leadership
             </h2>
           </Reveal>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 flex flex-wrap justify-center gap-6">
             {leadership.map((member, i) => (
-              <Reveal key={member.slug} delay={i * 80}>
+              <Reveal
+                key={member.slug}
+                delay={i * 80}
+                className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+              >
                 <TeamMemberCard member={member} />
               </Reveal>
             ))}
