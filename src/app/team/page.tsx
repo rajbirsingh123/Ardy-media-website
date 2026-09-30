@@ -39,7 +39,8 @@ export default function TeamPage() {
             dark
             eyebrow="The Team"
             title="The people behind Ardy Media"
-            description="A small, senior team running strategy, technology, sales and operations for every client — not a rotating cast of subcontractors."
+            description="The team behind the real products, campaigns and systems that help our clients grow their business"
+            italicDescription
           />
         </Container>
       </Section3D>
@@ -67,9 +68,6 @@ export default function TeamPage() {
             <h2 className="font-display text-sm font-bold uppercase tracking-wider text-gold-300">
               Department Heads
             </h2>
-            <p className="mt-2 text-sm text-white/50">
-              Drag, or use the arrow keys, to see who runs what.
-            </p>
           </Reveal>
           <div className="mt-6">
             <TeamFilmstrip members={departmentTeam} />

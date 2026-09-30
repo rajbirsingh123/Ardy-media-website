@@ -165,7 +165,7 @@ export const teamMembers: TeamMember[] = [
     name: "Rajbir Singh",
     role: "Head of Technology",
     tier: "management",
-    photo: { src: "/team/rajbir-singh.jpg", width: 821, height: 1010 },
+    photo: { src: "/team/dot.jpeg", width: 821, height: 1010 },
     linkedin: "https://www.linkedin.com/in/rajbir-singh-5233251a6/",
     bio: "Rajbir leads the engineering team building the websites, apps and CRM systems Ardy Media ships for clients — turning strategy into working software, from the first line of code to launch. He stays hands-on with every build rather than managing from a distance.",
   },
@@ -204,9 +204,10 @@ export const teamMembers: TeamMember[] = [
   {
     slug: "reena-kaur",
     name: "Reena Kaur",
-    role: "Office Administrator",
+    role: "Senior Web Designer",
     tier: "team",
-    bio: "Reena keeps Ardy Media's office running — scheduling, vendor coordination and the everyday operations that let the team stay focused on client work instead of admin.",
+    photo: { src: "/team/reena.jpeg", width: 1122, height: 1402 },
+    bio: "Reena designs the websites and interfaces Ardy Media ships for clients — turning strategy into layouts, pages and visual systems built to convert, not just look good. She's focused on design that carries its weight commercially.",
   },
 ];
 

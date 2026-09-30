@@ -4,12 +4,14 @@ export default function SectionHeading({
   description,
   align = "center",
   dark = false,
+  italicDescription = false,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   align?: "center" | "left";
   dark?: boolean;
+  italicDescription?: boolean;
 }) {
   return (
     <div
@@ -39,7 +41,7 @@ export default function SectionHeading({
         <p
           className={`mt-4 text-balance text-base leading-relaxed sm:text-lg ${
             dark ? "text-white/70" : "text-muted"
-          }`}
+          } ${italicDescription ? "italic" : ""}`}
         >
           {description}
         </p>

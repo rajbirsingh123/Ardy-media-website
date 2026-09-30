@@ -100,7 +100,7 @@ export default function TeamFilmstrip({ members }: { members: TeamMember[] }) {
       state.pointerX = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width - 0.5) * 2));
       state.pointerY = Math.max(-1, Math.min(1, ((e.clientY - rect.top) / rect.height - 0.5) * 2));
       if (dragging) {
-        const spacing = Math.min(168, Math.max(112, stage.clientWidth * 0.14));
+        const spacing = Math.min(210, Math.max(140, stage.clientWidth * 0.14));
         state.base = dragBaseAtStart - (e.clientX - dragStartX) / spacing;
         state.target = state.base;
         state.autoAccum = 0;
@@ -180,7 +180,7 @@ export default function TeamFilmstrip({ members }: { members: TeamMember[] }) {
       const compact = stage.clientWidth < 560;
       const activeIndex = nearestIndex();
       updateBio(activeIndex);
-      const horizontalSpacing = Math.min(168, Math.max(112, stage.clientWidth * 0.16));
+      const horizontalSpacing = Math.min(210, Math.max(140, stage.clientWidth * 0.16));
 
       cards.forEach((card, index) => {
         const delta = wrappedDelta(index, state.phase, count);
@@ -232,7 +232,7 @@ export default function TeamFilmstrip({ members }: { members: TeamMember[] }) {
     <div>
       <div
         ref={stageRef}
-        className="relative z-10 h-[380px] cursor-grab touch-none select-none active:cursor-grabbing sm:h-[420px]"
+        className="relative z-10 h-[420px] cursor-grab touch-none select-none active:cursor-grabbing sm:h-[470px]"
         style={{ perspective: "1450px" }}
       >
         <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
@@ -244,7 +244,7 @@ export default function TeamFilmstrip({ members }: { members: TeamMember[] }) {
               }}
               type="button"
               aria-label={`Focus ${member.name}`}
-              className="absolute left-1/2 top-1/2 flex w-[190px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-900 to-navy shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:w-[210px]"
+              className="absolute left-1/2 top-1/2 flex w-[220px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-900 to-navy shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:w-[260px]"
               style={{ aspectRatio: "0.74", willChange: "transform, opacity, filter" }}
             >
               <span className="relative block flex-1 overflow-hidden">
@@ -253,12 +253,12 @@ export default function TeamFilmstrip({ members }: { members: TeamMember[] }) {
                     src={member.photo.src}
                     alt={member.name}
                     fill
-                    sizes="210px"
+                    sizes="260px"
                     className="object-cover object-top"
                   />
                 ) : (
-                  <span className="flex h-full w-full items-center justify-center">
-                    <span className="font-display text-2xl font-extrabold text-white/90">
+                  <span className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-700 to-navy">
+                    <span className="grid h-16 w-16 place-items-center rounded-full bg-gold-500/10 font-display text-xl font-extrabold text-gold-300 ring-1 ring-gold-400/30 sm:h-20 sm:w-20 sm:text-2xl">
                       {initials(member.name)}
                     </span>
                   </span>
