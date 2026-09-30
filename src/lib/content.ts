@@ -165,7 +165,7 @@ export const teamMembers: TeamMember[] = [
     name: "Rajbir Singh",
     role: "Head of Technology",
     tier: "management",
-    photo: { src: "/team/rajbir-singh.jpg", width: 1066, height: 1600 },
+    photo: { src: "/team/rajbir-singh.jpg", width: 821, height: 1010 },
     linkedin: "https://www.linkedin.com/in/rajbir-singh-5233251a6/",
     bio: "Rajbir leads the engineering team building the websites, apps and CRM systems Ardy Media ships for clients — turning strategy into working software, from the first line of code to launch. He stays hands-on with every build rather than managing from a distance.",
   },
