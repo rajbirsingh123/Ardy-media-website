@@ -118,6 +118,7 @@ function drawTile(
   h: number,
   spec: TileSpec,
   rand: () => number,
+  logoImg: HTMLImageElement | null,
 ) {
   const pad = 14;
   roundRectPath(ctx, pad, pad, w - pad * 2, h - pad * 2, 22);
@@ -140,17 +141,30 @@ function drawTile(
 
   switch (spec.kind) {
     case "mark": {
-      ctx.fillStyle = GOLD;
-      ctx.beginPath();
-      ctx.arc(w / 2, h / 2 - 8, 36, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = NAVY;
-      ctx.font = "800 32px system-ui, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("A", w / 2, h / 2 + 2);
+      if (logoImg && logoImg.naturalWidth) {
+        const ratio = logoImg.naturalWidth / logoImg.naturalHeight;
+        const maxH = h - pad * 2 - 66;
+        const maxW = w - pad * 2 - 80;
+        let dh = maxH;
+        let dw = dh * ratio;
+        if (dw > maxW) {
+          dw = maxW;
+          dh = dw / ratio;
+        }
+        ctx.drawImage(logoImg, w / 2 - dw / 2, h / 2 - dh / 2 - 16, dw, dh);
+      } else {
+        ctx.fillStyle = GOLD;
+        ctx.beginPath();
+        ctx.arc(w / 2, h / 2 - 8, 36, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = NAVY;
+        ctx.font = "800 32px system-ui, sans-serif";
+        ctx.fillText("A", w / 2, h / 2 + 2);
+      }
       ctx.fillStyle = MIST;
       ctx.font = "600 22px system-ui, sans-serif";
-      ctx.fillText("Ardy Media", w / 2, h / 2 + 56);
+      ctx.fillText("Ardy Media", w / 2, h - pad - 22);
       ctx.textAlign = "left";
       break;
     }
@@ -206,7 +220,7 @@ function drawTile(
   ctx.restore();
 }
 
-function buildAtlas(rand: () => number) {
+function buildAtlas(rand: () => number, logoImg: HTMLImageElement | null) {
   const TW = 384;
   const TH = 256;
   const COLS = 5;
@@ -221,10 +235,97 @@ function buildAtlas(rand: () => number) {
     const cy = Math.floor(i / COLS) * TH;
     ctx.save();
     ctx.translate(cx, cy);
-    drawTile(ctx, TW, TH, spec, rand);
+    drawTile(ctx, TW, TH, spec, rand, logoImg);
     ctx.restore();
   });
   return { canvas, cols: COLS, rows: ROWS, count: specs.length };
+}
+
+/* ---------------------------------------------------------------------
+ * Globe core — a solid lat/long sphere so the orb reads as an actual
+ * globe, with the brand cards floating just above its surface.
+ * ------------------------------------------------------------------- */
+function buildGlobeTexture() {
+  const W = 1024;
+  const H = 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d")!;
+
+  // ocean base
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, "#1d3d72");
+  grad.addColorStop(0.45, "#123061");
+  grad.addColorStop(1, "#050d1c");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // limb darkening left/right — reads as curvature when wrapped on the sphere
+  const limb = ctx.createLinearGradient(0, 0, W, 0);
+  limb.addColorStop(0, "rgba(0,0,0,0.4)");
+  limb.addColorStop(0.14, "rgba(0,0,0,0)");
+  limb.addColorStop(0.86, "rgba(0,0,0,0)");
+  limb.addColorStop(1, "rgba(0,0,0,0.4)");
+  ctx.fillStyle = limb;
+  ctx.fillRect(0, 0, W, H);
+
+  // stylized abstract landmasses, deterministic
+  const landRand = mulberry32(90210);
+  ctx.fillStyle = "rgba(255,224,138,0.13)";
+  for (let i = 0; i < 22; i++) {
+    const bx = landRand() * W;
+    const by = H * 0.14 + landRand() * H * 0.72;
+    const blobR = 24 + landRand() * 58;
+    const points = 9;
+    ctx.beginPath();
+    for (let p = 0; p <= points; p++) {
+      const a = (p / points) * Math.PI * 2;
+      const rr2 = blobR * (0.65 + landRand() * 0.5);
+      const px = bx + Math.cos(a) * rr2;
+      const py = by + Math.sin(a) * rr2 * 0.6;
+      if (p === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // faint lat/long grid
+  ctx.strokeStyle = "rgba(238,244,255,0.08)";
+  ctx.lineWidth = 1;
+  for (let lon = 0; lon <= 360; lon += 20) {
+    const x = (lon / 360) * W;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+  for (let lat = -80; lat <= 80; lat += 20) {
+    const y = ((90 - lat) / 180) * H;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+
+  // equator accent
+  ctx.strokeStyle = "rgba(240,180,41,0.28)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(0, H / 2);
+  ctx.lineTo(W, H / 2);
+  ctx.stroke();
+
+  // glossy light sheen, simulating a light source upper-left
+  const sheen = ctx.createRadialGradient(W * 0.32, H * 0.22, 10, W * 0.32, H * 0.22, W * 0.5);
+  sheen.addColorStop(0, "rgba(255,255,255,0.22)");
+  sheen.addColorStop(0.35, "rgba(255,255,255,0.05)");
+  sheen.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = sheen;
+  ctx.fillRect(0, 0, W, H);
+
+  return canvas;
 }
 
 /* ---------------------------------------------------------------------
@@ -355,8 +456,11 @@ export default function OrbHero() {
     }
     if (!gl) return;
 
+    const logoImg = new Image();
+    logoImg.src = "/logo-mark.png";
+
     const rand = mulberry32(424242);
-    const atlas = buildAtlas(rand);
+    const atlas = buildAtlas(rand, null);
     const cards = buildCards(rand, atlas.count);
     const outlines = cards.map((c) => cardOutline(c.hw, c.hh, Math.min(c.hw, c.hh) * 0.4));
 
@@ -426,8 +530,41 @@ export default function OrbHero() {
       transparent: true,
     });
     const mesh = new THREE.Mesh(geometry, material);
-    orbGroup.add(mesh);
+
+    const globeTexture = new THREE.CanvasTexture(buildGlobeTexture());
+    globeTexture.colorSpace = THREE.SRGBColorSpace;
+    const globeGeometry = new THREE.SphereGeometry(SPHERE.R * 0.93, 64, 48);
+    const globeMaterial = new THREE.MeshBasicMaterial({ map: globeTexture });
+    const globeMesh = new THREE.Mesh(globeGeometry, globeMaterial);
+
+    const glowGeometry = new THREE.SphereGeometry(SPHERE.R * 1.015, 48, 32);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(GOLD),
+      transparent: true,
+      opacity: 0.05,
+      side: THREE.BackSide,
+    });
+    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+
+    orbGroup.add(globeMesh, mesh, glowMesh);
     orbGroup.rotation.x = 0.18;
+
+    function repaintMarkTile() {
+      const ctx = atlas.canvas.getContext("2d");
+      if (!ctx) return;
+      const TW = atlas.canvas.width / atlas.cols;
+      const TH = atlas.canvas.height / atlas.rows;
+      ctx.save();
+      ctx.clearRect(0, 0, TW, TH);
+      drawTile(ctx, TW, TH, { kind: "mark" }, rand, logoImg);
+      ctx.restore();
+      texture.needsUpdate = true;
+    }
+    if (logoImg.complete && logoImg.naturalWidth > 0) {
+      repaintMarkTile();
+    } else {
+      logoImg.addEventListener("load", repaintMarkTile, { once: true });
+    }
 
     // ---- responsive fit ----
     function fit() {
@@ -594,9 +731,15 @@ export default function OrbHero() {
       canvas.removeEventListener("pointerup", endDrag);
       canvas.removeEventListener("pointercancel", endDrag);
       canvas.removeEventListener("pointerleave", onPointerLeave);
+      logoImg.removeEventListener("load", repaintMarkTile);
       geometry.dispose();
       material.dispose();
       texture.dispose();
+      globeGeometry.dispose();
+      globeMaterial.dispose();
+      globeTexture.dispose();
+      glowGeometry.dispose();
+      glowMaterial.dispose();
       renderer.dispose();
     };
   }, []);

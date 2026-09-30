@@ -13,21 +13,18 @@ import FloatVisual from "./FloatVisual";
 import DashboardCard from "./DashboardCard";
 import StatCounters from "./StatCounters";
 import RoiCalculator from "./RoiCalculator";
-import Testimonials from "./Testimonials";
 import StoryFlow from "./StoryFlow";
 import FloatVideo from "./FloatVideo";
 import ProcessFilmstrip from "./ProcessFilmstrip";
 import SectionConnector from "./SectionConnector";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 import {
-  outcomes,
   pillarBrand,
   pillarFaqs,
   pillarHighlights,
   pillarPlatforms,
   pillarProcess,
   pillarServiceList,
-  pillarTestimonials,
   services,
   type Service,
 } from "@/lib/content";
@@ -75,7 +72,6 @@ export default function PillarLanding({
   const faqItems = pillarFaqs[serviceSlug] ?? [];
   const platforms = pillarPlatforms[serviceSlug] ?? [];
   const highlights = pillarHighlights[serviceSlug] ?? [];
-  const testimonials = pillarTestimonials[serviceSlug] ?? outcomes;
   const others = otherPillars.filter((p) => p.slug !== serviceSlug);
 
   return (
@@ -463,18 +459,6 @@ export default function PillarLanding({
           <Reveal>
             <TrustedBy dark />
           </Reveal>
-        </Container>
-      </Section3D>
-
-      {/* Testimonials */}
-      <Section3D className="py-20">
-        <Container className="relative z-10">
-          <Reveal>
-            <SectionHeading dark eyebrow="Testimonials" title="What clients say about working with us" />
-          </Reveal>
-          <div className="mt-14">
-            <Testimonials items={testimonials} />
-          </div>
         </Container>
       </Section3D>
 

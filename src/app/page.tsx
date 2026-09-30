@@ -43,7 +43,7 @@ export default function Home() {
               />
               <div className="mt-8 flex flex-wrap gap-4">
                 <NeuralButton href="/contact" accent="gold">
-                  Talk to us about Ardy Media
+                  Talk to us
                   <ArrowRightIcon />
                 </NeuralButton>
                 <NeuralButton href="/services" accent="ice">
@@ -154,7 +154,7 @@ export default function Home() {
               </h2>
             </div>
           </Reveal>
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          <div className="mx-auto mt-14 grid max-w-3xl gap-6 sm:grid-cols-2">
             {outcomes.map((item, i) => (
               <Reveal key={item.attribution} delay={i * 100}>
                 <TiltCard className="flex h-full flex-col rounded-2xl bg-white/5 p-7 ring-1 ring-white/10">

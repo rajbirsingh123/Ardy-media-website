@@ -7,6 +7,8 @@ type Format = "dot" | "square";
 type Particle = {
   cx: number;
   cy: number;
+  sx: number;
+  sy: number;
   nx: number;
   ny: number;
   format: Format;
@@ -212,9 +214,13 @@ export default function ParticleHeading({
           const m = sample ? sample(px, py) : 0;
           if (m < 0.16) continue;
           const range = rand() < BIG_CHANCE ? SIZE_BIG : SIZE_SMALL;
+          const scatterAngle = rand() * TAU;
+          const scatterDist = 90 + rand() * 260;
           next.push({
             cx: px,
             cy: py,
+            sx: Math.cos(scatterAngle) * scatterDist,
+            sy: Math.sin(scatterAngle) * scatterDist,
             nx: cols > 1 ? x / (cols - 1) : 0.5,
             ny: rows > 1 ? y / (rows - 1) : 0.5,
             format: FORMATS[Math.floor(rand() * FORMATS.length)],
@@ -239,14 +245,20 @@ export default function ParticleHeading({
       // Legible floor so the shape always reads; shimmer + glint layer sparkle on top.
       const alpha = p.mask * (0.78 + 0.22 * shimmer) * intro;
       if (alpha <= 0.02) return;
-      const r = (p.size / 2) * (0.5 + 0.5 * intro);
+      const r = (p.size / 2) * (0.15 + 0.85 * intro);
+
+      // Particles converge from a scattered start point into their final
+      // letterform position as they fade in, instead of just appearing in place.
+      const settle = 1 - intro;
+      const drawX = p.cx + p.sx * settle;
+      const drawY = p.cy + p.sy * settle;
 
       // Starlight glow: a pre-rendered radial sprite scaled per particle, tinted via alpha.
       // Peaks of `spark` blow the glow out wider and brighter for a diamond-catching-light flash.
       if (gctx) {
         const glowR = r * (4.2 + spark * 2);
         ctx.globalAlpha = Math.min(1, alpha * 0.85 + spark * 0.22);
-        ctx.drawImage(glowSprite, p.cx - glowR, p.cy - glowR, glowR * 2, glowR * 2);
+        ctx.drawImage(glowSprite, drawX - glowR, drawY - glowR, glowR * 2, glowR * 2);
         ctx.globalAlpha = 1;
       }
 
@@ -257,10 +269,10 @@ export default function ParticleHeading({
       const b = Math.round(255);
       ctx.fillStyle = `rgba(255,${g},${b},${coreAlpha})`;
       const cr = r * (1 + spark * 0.35);
-      if (p.format === "square") ctx.fillRect(p.cx - cr, p.cy - cr, cr * 2, cr * 2);
+      if (p.format === "square") ctx.fillRect(drawX - cr, drawY - cr, cr * 2, cr * 2);
       else {
         ctx.beginPath();
-        ctx.arc(p.cx, p.cy, cr, 0, TAU);
+        ctx.arc(drawX, drawY, cr, 0, TAU);
         ctx.fill();
       }
 
@@ -271,10 +283,10 @@ export default function ParticleHeading({
         ctx.strokeStyle = `rgba(255,255,255,${spikeAlpha * 0.45})`;
         ctx.lineWidth = Math.max(0.5, r * 0.22);
         ctx.beginPath();
-        ctx.moveTo(p.cx - len, p.cy);
-        ctx.lineTo(p.cx + len, p.cy);
-        ctx.moveTo(p.cx, p.cy - len);
-        ctx.lineTo(p.cx, p.cy + len);
+        ctx.moveTo(drawX - len, drawY);
+        ctx.lineTo(drawX + len, drawY);
+        ctx.moveTo(drawX, drawY - len);
+        ctx.lineTo(drawX, drawY + len);
         ctx.stroke();
       }
     }

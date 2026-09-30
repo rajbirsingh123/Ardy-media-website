@@ -536,18 +536,13 @@ export const industries = [
 export const outcomes = [
   {
     quote:
-      "The biggest change wasn't more leads — it was never wondering if someone had followed up.",
-    attribution: "Local service business, three months in",
+      "Ardy Media took our paid social from a guessing game to a real pipeline — every lead is tracked back to the campaign that brought it in, and the weekly reports actually tell us what to do next.",
+    attribution: "Sabbie Sandhu, Founder & Owner — Royal Den Capital",
   },
   {
     quote:
-      "We stopped getting handed off between an ad agency and a web developer. One team just handled it.",
-    attribution: "E-commerce retailer",
-  },
-  {
-    quote:
-      "The automation catches things we used to lose — a missed call, a cold lead, a no-show. Now it just gets handled.",
-    attribution: "Real estate team",
+      "We finally have a system instead of scattered ads. Ardy Media set up our Meta and Instagram campaigns and we've had a steady stream of qualified leads ever since.",
+    attribution: "Gurprem Sandhu — Summer Haven",
   },
 ];
 

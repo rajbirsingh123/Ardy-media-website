@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -47,6 +48,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jakarta.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-mist-50 text-ink">
+        <Script
+          id="cookieyes"
+          strategy="beforeInteractive"
+          src="https://cdn-cookieyes.com/client_data/5a762f72ddb772ec33d63fa8779c7c63/script.js"
+        />
         <SmoothScroll />
         <Navbar />
         <main className="flex-1">{children}</main>
