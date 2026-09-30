@@ -1,23 +1,37 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
-import Container from "./Container";
-import { ArrowRightIcon, iconMap } from "./Icons";
-import { team } from "@/lib/content";
+import Image from "next/image";
+import { LinkedInIcon } from "./Icons";
+import type { TeamMember } from "@/lib/content";
 
-const COUNT = team.length;
+const AUTO_ROTATE_MS = 3200;
+const RESUME_AFTER_INPUT_MS = 1400;
 
-function wrappedDelta(index: number, phase: number) {
+function wrappedDelta(index: number, phase: number, count: number) {
   let delta = index - phase;
-  while (delta > COUNT / 2) delta -= COUNT;
-  while (delta < -COUNT / 2) delta += COUNT;
+  while (delta > count / 2) delta -= count;
+  while (delta < -count / 2) delta += count;
   return delta;
 }
 
-export default function TeamFilmstrip() {
+function initials(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+export default function TeamFilmstrip({ members }: { members: TeamMember[] }) {
+  const count = members.length;
   const stageRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const bioNameRef = useRef<HTMLHeadingElement>(null);
+  const bioRoleRef = useRef<HTMLSpanElement>(null);
+  const bioTextRef = useRef<HTMLParagraphElement>(null);
+  const bioLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const stageEl = stageRef.current;
@@ -35,20 +49,41 @@ export default function TeamFilmstrip() {
       pointerX: 0,
       pointerY: 0,
       lastInput: performance.now(),
+      autoAccum: 0,
+      shownIndex: -1,
     };
 
     function nearestIndex() {
-      return ((Math.round(state.phase) % COUNT) + COUNT) % COUNT;
+      return ((Math.round(state.phase) % count) + count) % count;
+    }
+
+    function updateBio(index: number) {
+      if (index === state.shownIndex) return;
+      state.shownIndex = index;
+      const member = members[index];
+      if (bioNameRef.current) bioNameRef.current.textContent = member.name;
+      if (bioRoleRef.current) bioRoleRef.current.textContent = member.role;
+      if (bioTextRef.current) bioTextRef.current.textContent = member.bio;
+      if (bioLinkRef.current) {
+        if (member.linkedin) {
+          bioLinkRef.current.href = member.linkedin;
+          bioLinkRef.current.style.display = "";
+        } else {
+          bioLinkRef.current.removeAttribute("href");
+          bioLinkRef.current.style.display = "none";
+        }
+      }
     }
 
     function moveTo(index: number) {
       const current = nearestIndex();
       let delta = index - current;
-      if (delta > COUNT / 2) delta -= COUNT;
-      if (delta < -COUNT / 2) delta += COUNT;
+      if (delta > count / 2) delta -= count;
+      if (delta < -count / 2) delta += count;
       state.base += delta;
       state.target = state.base;
       state.lastInput = performance.now();
+      state.autoAccum = 0;
     }
 
     cards.forEach((card, index) => {
@@ -68,6 +103,7 @@ export default function TeamFilmstrip() {
         const spacing = Math.min(168, Math.max(112, stage.clientWidth * 0.14));
         state.base = dragBaseAtStart - (e.clientX - dragStartX) / spacing;
         state.target = state.base;
+        state.autoAccum = 0;
       }
       state.lastInput = performance.now();
     }
@@ -79,6 +115,7 @@ export default function TeamFilmstrip() {
     }
     function endDrag(e: PointerEvent) {
       dragging = false;
+      state.lastInput = performance.now();
       try {
         stage.releasePointerCapture(e.pointerId);
       } catch {
@@ -98,6 +135,7 @@ export default function TeamFilmstrip() {
       state.base += forward ? 1 : -1;
       state.target = state.base;
       state.lastInput = performance.now();
+      state.autoAccum = 0;
     }
 
     stage.addEventListener("pointermove", onPointerMove);
@@ -115,6 +153,8 @@ export default function TeamFilmstrip() {
     });
     io.observe(stage);
 
+    updateBio(0);
+
     function render(time: number) {
       rafId = requestAnimationFrame(render);
       if (!visible) return;
@@ -122,20 +162,28 @@ export default function TeamFilmstrip() {
       previousTime = time;
       const ease = reduced ? 1 : 1 - Math.pow(0.001, deltaTime / 1000);
 
-      if (!dragging && !reduced) {
-        const idle = time - state.lastInput - 3600;
-        if (idle > 0) {
-          state.target = state.base + Math.sin(idle * 0.00042) * 1.1;
+      if (!dragging && !reduced && count > 1) {
+        const idleSinceInput = time - state.lastInput;
+        if (idleSinceInput > RESUME_AFTER_INPUT_MS) {
+          state.autoAccum += deltaTime;
+          if (state.autoAccum >= AUTO_ROTATE_MS) {
+            state.autoAccum = 0;
+            state.base += 1;
+            state.target = state.base;
+          }
+        } else {
+          state.autoAccum = 0;
         }
       }
 
       state.phase += (state.target - state.phase) * ease;
       const compact = stage.clientWidth < 560;
       const activeIndex = nearestIndex();
+      updateBio(activeIndex);
       const horizontalSpacing = Math.min(168, Math.max(112, stage.clientWidth * 0.16));
 
       cards.forEach((card, index) => {
-        const delta = wrappedDelta(index, state.phase);
+        const delta = wrappedDelta(index, state.phase, count);
         const distance = Math.abs(delta);
         const focus = Math.exp(-distance * distance * 1.28);
         const side = Math.max(0, 1 - distance / 4);
@@ -176,75 +224,87 @@ export default function TeamFilmstrip() {
       stage.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, []);
+  }, [count, members]);
+
+  const first = members[0];
 
   return (
-    <section className="relative overflow-hidden py-20 sm:py-24">
-      <Container className="relative z-10">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-gold-300 ring-1 ring-white/10">
-            Who Keeps It Running
-          </div>
-          <h2 className="text-balance font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            One team, four disciplines
-          </h2>
-          <p className="mt-4 text-balance text-base leading-relaxed text-white/70 sm:text-lg">
-            Drag, or use the arrow keys, to see who&apos;s behind the work.
-          </p>
-        </div>
-      </Container>
-
+    <div>
       <div
         ref={stageRef}
-        className="relative z-10 mt-14 h-[380px] cursor-grab touch-none select-none active:cursor-grabbing sm:h-[420px]"
+        className="relative z-10 h-[380px] cursor-grab touch-none select-none active:cursor-grabbing sm:h-[420px]"
         style={{ perspective: "1450px" }}
       >
         <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
-          {team.map((member, i) => {
-            const Icon = iconMap[member.icon as keyof typeof iconMap];
-            return (
-              <button
-                key={member.slug}
-                ref={(el) => {
-                  cardRefs.current[i] = el;
-                }}
-                type="button"
-                aria-label={`Focus ${member.focus}`}
-                className="absolute left-1/2 top-1/2 flex w-[190px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-900 to-navy shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:w-[210px]"
-                style={{ aspectRatio: "0.74", willChange: "transform, opacity, filter" }}
-              >
-                <span className="flex flex-1 items-center justify-center">
-                  <span className="grid h-16 w-16 place-items-center rounded-full bg-gold-500/10 text-gold-300 ring-1 ring-gold-400/30 sm:h-20 sm:w-20">
-                    <Icon className="h-8 w-8 sm:h-9 sm:w-9" />
-                  </span>
-                </span>
-                <span className="grid grid-cols-[auto_1fr] items-center gap-2.5 bg-[#0b1220] p-3">
-                  <span className="grid h-8 w-8 place-items-center rounded-full border border-gold-500/60 font-mono text-[11px] font-semibold text-gold-400">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0 text-left">
-                    <span className="block truncate text-sm font-bold text-white">{member.focus}</span>
-                    <span className="mt-0.5 block truncate text-[11px] font-medium text-gold-300/80">
-                      {member.role}
+          {members.map((member, i) => (
+            <button
+              key={member.slug}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+              type="button"
+              aria-label={`Focus ${member.name}`}
+              className="absolute left-1/2 top-1/2 flex w-[190px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-900 to-navy shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:w-[210px]"
+              style={{ aspectRatio: "0.74", willChange: "transform, opacity, filter" }}
+            >
+              <span className="relative block flex-1 overflow-hidden">
+                {member.photo ? (
+                  <Image
+                    src={member.photo.src}
+                    alt={member.name}
+                    fill
+                    sizes="210px"
+                    className="object-cover object-top"
+                  />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center">
+                    <span className="font-display text-2xl font-extrabold text-white/90">
+                      {initials(member.name)}
                     </span>
                   </span>
+                )}
+              </span>
+              <span className="grid grid-cols-[auto_1fr] items-center gap-2.5 bg-[#0b1220] p-3">
+                <span className="grid h-8 w-8 place-items-center rounded-full border border-gold-500/60 font-mono text-[11px] font-semibold text-gold-400">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-              </button>
-            );
-          })}
+                <span className="min-w-0 text-left">
+                  <span className="block truncate text-sm font-bold text-white">{member.name}</span>
+                  <span className="mt-0.5 block truncate text-[11px] font-medium text-gold-300/80">
+                    {member.role}
+                  </span>
+                </span>
+              </span>
+            </button>
+          ))}
         </div>
       </div>
 
-      <Container className="relative z-10">
-        <div className="mt-10 text-center">
-          <Link
-            href="/team"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300 hover:text-gold-200"
-          >
-            Meet the full team <ArrowRightIcon />
-          </Link>
-        </div>
-      </Container>
-    </section>
+      <div className="relative z-10 mx-auto mt-6 max-w-xl rounded-2xl bg-white/5 p-6 text-center ring-1 ring-white/10 sm:p-7">
+        <h3 ref={bioNameRef} className="font-display text-lg font-bold text-white">
+          {first.name}
+        </h3>
+        <span ref={bioRoleRef} className="mt-0.5 block text-sm font-medium text-gold-300">
+          {first.role}
+        </span>
+        <p
+          ref={bioTextRef}
+          className="mx-auto mt-3 min-h-[72px] max-w-md text-sm leading-relaxed text-white/70"
+        >
+          {first.bio}
+        </p>
+        <a
+          ref={bioLinkRef}
+          href={first.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: first.linkedin ? undefined : "none" }}
+          aria-label={`${first.name} on LinkedIn`}
+          className="mt-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-white/70 ring-1 ring-white/10 transition-colors duration-200 hover:bg-gold-500 hover:text-navy"
+        >
+          <LinkedInIcon className="h-4 w-4" />
+        </a>
+      </div>
+    </div>
   );
 }

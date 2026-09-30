@@ -14,7 +14,7 @@ function initials(name: string) {
 
 export default function TeamMemberCard({ member }: { member: TeamMember }) {
   return (
-    <TiltCard className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-soft transition-shadow duration-300 hover:shadow-lift">
+    <TiltCard className="flex h-full flex-col overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition-colors duration-300 hover:ring-white/20">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-brand-700 to-navy">
         {member.photo ? (
           <Image
@@ -35,8 +35,8 @@ export default function TeamMemberCard({ member }: { member: TeamMember }) {
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <h3 className="font-display text-lg font-bold text-navy">{member.name}</h3>
-            <p className="text-sm font-medium text-brand-700">{member.role}</p>
+            <h3 className="font-display text-lg font-bold text-white">{member.name}</h3>
+            <p className="text-sm font-medium text-gold-300">{member.role}</p>
           </div>
           {member.linkedin && (
             <a
@@ -44,13 +44,13 @@ export default function TeamMemberCard({ member }: { member: TeamMember }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${member.name} on LinkedIn`}
-              className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-mist-100 text-brand-700 transition-colors duration-200 hover:bg-brand-600 hover:text-white"
+              className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-white/5 text-white/70 ring-1 ring-white/10 transition-colors duration-200 hover:bg-gold-500 hover:text-navy"
             >
               <LinkedInIcon className="h-4 w-4" />
             </a>
           )}
         </div>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{member.bio}</p>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-white/70">{member.bio}</p>
       </div>
     </TiltCard>
   );
