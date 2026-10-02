@@ -145,11 +145,11 @@ export const teamMembers: TeamMember[] = [
   {
     slug: "pavit-paul",
     name: "Pavit Paul",
-    role: "Chief Financial Officer",
+    role: "Chief Marketing Officer",
     tier: "leadership",
     photo: { src: "/team/pavit-paul.jpg", width: 800, height: 800 },
     linkedin: "https://www.linkedin.com/in/pavit-paul/",
-    bio: "Pavit runs the financial engine behind Ardy Media — budgeting, forecasting and the numbers that keep client campaigns and internal operations honest. He makes sure growth is funded sustainably, not just chased.",
+    bio: "Pavit shapes the marketing strategy behind Ardy Media — the positioning, messaging and campaigns that drive growth for clients and the agency alike. He makes sure every campaign is built to perform, not just to launch.",
   },
   {
     slug: "rajbir-singh",
