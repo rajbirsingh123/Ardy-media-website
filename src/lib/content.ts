@@ -185,14 +185,6 @@ export const teamMembers: TeamMember[] = [
     bio: "Opinder shapes how Ardy Media shows up — the content, positioning and campaigns that bring in the clients the team wants to work with. He holds the agency's own marketing to the same standard applied to client work.",
   },
   {
-    slug: "varun-kapoor",
-    name: "Varun Kapoor",
-    role: "R&D Specialist",
-    tier: "team",
-    photo: { src: "/team/varun-kapoor.jpg", width: 640, height: 641 },
-    bio: "Varun researches and pressure-tests the tools, platforms and workflows Ardy Media brings into client work — vetting what's actually worth adopting before it reaches a live engagement. He's the reason the team runs on what works, not just what's new.",
-  },
-  {
     slug: "reena-kaur",
     name: "Reena Kaur",
     role: "Senior Web Designer",
