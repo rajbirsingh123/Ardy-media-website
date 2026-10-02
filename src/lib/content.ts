@@ -161,14 +161,6 @@ export const teamMembers: TeamMember[] = [
     bio: "Rajbir leads the engineering team building the websites, apps and CRM systems Ardy Media ships for clients — turning strategy into working software, from the first line of code to launch. He stays hands-on with every build rather than managing from a distance.",
   },
   {
-    slug: "navpreet-kaur",
-    name: "Navpreet Kaur",
-    role: "Head of Operations",
-    tier: "management",
-    photo: { src: "/team/navpreet-kaur.jpg", width: 1024, height: 1536 },
-    bio: "Navpreet leads Operations at Ardy Media, building the efficient systems and leading the teams that turn strategy into execution — managing the projects and priorities that keep every engagement on track. She's driven by business growth and using people and technology to create real impact.",
-  },
-  {
     slug: "hasmukh-sran",
     name: "Hasmukh Sran",
     role: "Head of Sales",
