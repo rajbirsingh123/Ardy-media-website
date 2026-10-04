@@ -156,7 +156,6 @@ export const teamMembers: TeamMember[] = [
     name: "Rajbir Singh",
     role: "Head of Technology",
     tier: "management",
-    photo: { src: "/team/dot.jpeg", width: 821, height: 1010 },
     linkedin: "https://www.linkedin.com/in/rajbir-singh-5233251a6/",
     bio: "Rajbir leads the engineering team building the websites, apps and CRM systems Ardy Media ships for clients — turning strategy into working software, from the first line of code to launch. He stays hands-on with every build rather than managing from a distance.",
   },
@@ -165,7 +164,6 @@ export const teamMembers: TeamMember[] = [
     name: "Hasmukh Sran",
     role: "Head of Sales",
     tier: "management",
-    photo: { src: "/team/hasmukh.jpeg", width: 733, height: 1600 },
     bio: "Hasmukh leads new business at Ardy Media, running the first conversations with prospective clients and translating what a business actually needs into the right mix of media, technology and automation. He's focused on fit over volume.",
   },
   {
@@ -173,16 +171,14 @@ export const teamMembers: TeamMember[] = [
     name: "Opinder Singh",
     role: "Head of Content & Marketing",
     tier: "management",
-    photo: { src: "/team/opinder.jpeg", width: 1122, height: 1402 },
     bio: "Opinder shapes how Ardy Media shows up — the content, positioning and campaigns that bring in the clients the team wants to work with. He holds the agency's own marketing to the same standard applied to client work.",
   },
   {
-    slug: "reena-kaur",
-    name: "Reena Kaur",
-    role: "Senior Web Designer",
-    tier: "team",
-    photo: { src: "/team/reena.jpeg", width: 1122, height: 1402 },
-    bio: "Reena designs the websites and interfaces Ardy Media ships for clients — turning strategy into layouts, pages and visual systems built to convert, not just look good. She's focused on design that carries its weight commercially.",
+    slug: "navpreet-kaur",
+    name: "Navpreet Kaur",
+    role: "Head of Operations",
+    tier: "management",
+    bio: "Navpreet keeps Ardy Media's day-to-day running — the processes, scheduling and internal systems that let the rest of the team focus on client work instead of logistics. She's the one making sure nothing falls through the cracks.",
   },
 ];
 

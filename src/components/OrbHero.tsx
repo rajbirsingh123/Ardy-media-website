@@ -3,9 +3,11 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import Container from "./Container";
+import FilmReelStrip from "./FilmReelStrip";
 import NeuralButton from "./NeuralButton";
 import ParticleHeading from "./ParticleHeading";
 import Reveal from "./Reveal";
+import TwinkleStars from "./TwinkleStars";
 import { ArrowRightIcon } from "./Icons";
 import { stats } from "@/lib/content";
 
@@ -576,7 +578,7 @@ export default function OrbHero() {
       const narrow = w < 900;
       camera.fov = narrow ? 46 : 32;
       camera.position.set(0, 0, narrow ? 3.2 : 3.6);
-      orbGroup.position.set(0, 0, 0);
+      orbGroup.position.set(0, narrow ? -0.12 : -0.2, 0);
       camera.updateProjectionMatrix();
     }
     fit();
@@ -773,6 +775,8 @@ export default function OrbHero() {
           }}
         />
 
+        <TwinkleStars />
+
         <div className="absolute inset-0 z-[2] flex items-center">
           <Container>
             <div
@@ -797,6 +801,10 @@ export default function OrbHero() {
               </Reveal>
             </div>
           </Container>
+        </div>
+
+        <div className="absolute inset-x-0 top-0 z-[2]">
+          <FilmReelStrip />
         </div>
       </div>
     </section>

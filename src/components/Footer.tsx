@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Logo from "./Logo";
-import SkyField from "./SkyField";
 import { getBrandForPath, navLinks, pillarRoutes, services, site } from "@/lib/content";
 
 export default function Footer() {
@@ -14,13 +13,23 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-white/5 text-white/80">
+      <video
+        className="absolute inset-0 h-full w-full object-cover object-bottom"
+        src="/videos/footer-sky.mp4"
+        poster="/videos/footer-sky-poster.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      />
       <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(1100px 520px at 50% 0%, #0a1730 0%, #030812 55%, #000103 100%)",
+          background:
+            "radial-gradient(1100px 520px at 50% 0%, rgba(10,23,48,0.5) 0%, rgba(3,8,18,0.62) 55%, rgba(0,1,3,0.75) 100%)",
         }}
       />
-      <SkyField className="absolute inset-0" />
 
       <Container className="relative z-10 py-14">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">

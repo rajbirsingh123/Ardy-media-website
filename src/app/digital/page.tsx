@@ -8,5 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function DigitalPage() {
-  return <PillarLanding serviceSlug="technology-development" />;
+  return (
+    <PillarLanding
+      serviceSlug="technology-development"
+      heroVideo="/videos/digital-hero.mp4"
+      heroVideoPoster="/videos/digital-hero-poster.jpg"
+    />
+  );
 }

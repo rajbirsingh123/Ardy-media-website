@@ -52,6 +52,8 @@ export default function PillarLanding({
   showRoiCalculator = false,
   processStory = false,
   processVideo,
+  heroVideo,
+  heroVideoPoster,
 }: {
   serviceSlug: Service["slug"];
   visuals?: PillarVisuals;
@@ -60,6 +62,8 @@ export default function PillarLanding({
   showRoiCalculator?: boolean;
   processVideo?: string;
   processStory?: boolean;
+  heroVideo?: string;
+  heroVideoPoster?: string;
 }) {
   const service = services.find((s) => s.slug === serviceSlug)!;
   const brand = pillarBrand[serviceSlug];
@@ -88,7 +92,29 @@ export default function PillarLanding({
 
       {/* Hero */}
       <section className="relative overflow-hidden py-20 sm:py-28">
-        <div className="pointer-events-none absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-brand-500/10 blur-3xl" />
+        {heroVideo ? (
+          <>
+            <video
+              className="absolute inset-0 h-full w-full object-cover"
+              src={heroVideo}
+              poster={heroVideoPoster}
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(900px 560px at 50% 38%, rgba(3,8,18,0.55) 0%, rgba(1,4,10,0.78) 60%, rgba(0,1,3,0.92) 100%)",
+              }}
+            />
+          </>
+        ) : (
+          <div className="pointer-events-none absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-brand-500/10 blur-3xl" />
+        )}
         <Container className="relative z-10">
           {serviceSlug === "growth-automation" || visuals?.hero ? (
             <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:items-center">
