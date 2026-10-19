@@ -785,8 +785,13 @@ export default function OrbHero() {
             >
               <Reveal>
                 <ParticleHeading
-                  lines={["You do the real work.", "We run your marketing & tech."]}
-                  mobileLines={["You do the", "real work.", "We run your", "marketing & tech."]}
+                  lines={["You run your real business.", "We run your marketing & tech."]}
+                  mobileLines={[
+                    "You run your",
+                    "real business.",
+                    "We run your",
+                    "marketing & tech.",
+                  ]}
                   heightClassName="h-64 w-full sm:h-56 lg:h-72"
                   className="mx-auto max-w-5xl"
                 />

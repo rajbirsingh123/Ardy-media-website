@@ -15,18 +15,18 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-line bg-white p-10 text-center shadow-soft">
-        <div className="grid h-14 w-14 place-items-center rounded-full bg-brand-50 text-brand-700">
+      <div className="flex flex-col items-center justify-center gap-4 rounded-2xl bg-white/5 p-10 text-center ring-1 ring-white/10">
+        <div className="grid h-14 w-14 place-items-center rounded-full bg-white/5 text-gold-300 ring-1 ring-white/10">
           <CheckIcon className="h-7 w-7" />
         </div>
-        <h3 className="font-display text-xl font-bold text-navy">Thanks — got it.</h3>
-        <p className="max-w-sm text-sm leading-relaxed text-muted">
+        <h3 className="font-display text-xl font-bold text-white">Thanks — got it.</h3>
+        <p className="max-w-sm text-sm leading-relaxed text-white/65">
           Your message has been noted. This is a demo form with no backend connected —
           hook it up to your CRM or an email service to start receiving real submissions.
         </p>
         <button
           onClick={() => setSubmitted(false)}
-          className="cursor-pointer text-sm font-semibold text-brand-700 hover:text-brand-800"
+          className="cursor-pointer text-sm font-semibold text-gold-300 hover:text-gold-200"
         >
           Send another message
         </button>
@@ -37,7 +37,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 rounded-2xl border border-line bg-white p-6 shadow-soft sm:p-8"
+      className="space-y-4 rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 sm:p-8"
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Full name" name="name" required />
@@ -46,7 +46,7 @@ export default function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Phone number" name="phone" type="tel" />
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-semibold text-navy" htmlFor="service">
+          <label className="text-sm font-semibold text-white" htmlFor="service">
             Interested in
           </label>
           <select
@@ -54,7 +54,7 @@ export default function ContactForm() {
             name="service"
             required
             defaultValue=""
-            className="rounded-xl border border-line bg-mist-50 px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:bg-white"
+            className="rounded-xl bg-white/5 px-4 py-3 text-sm text-white outline-none ring-1 ring-white/10 transition-colors focus:bg-white/10 focus:ring-gold-300/50 [&>option]:bg-[#060b18]"
           >
             <option value="" disabled>
               Choose a service…
@@ -69,14 +69,14 @@ export default function ContactForm() {
         </div>
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-semibold text-navy" htmlFor="message">
+        <label className="text-sm font-semibold text-white" htmlFor="message">
           Tell us about your business and goals
         </label>
         <textarea
           id="message"
           name="message"
           rows={4}
-          className="resize-none rounded-xl border border-line bg-mist-50 px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:bg-white"
+          className="resize-none rounded-xl bg-white/5 px-4 py-3 text-sm text-white outline-none ring-1 ring-white/10 transition-colors placeholder:text-white/35 focus:bg-white/10 focus:ring-gold-300/50"
         />
       </div>
       <button
@@ -85,7 +85,7 @@ export default function ContactForm() {
       >
         Send Message
       </button>
-      <p className="text-center text-xs text-muted">
+      <p className="text-center text-xs text-white/50">
         This is a demo form (no backend connected yet) — hook it up to your CRM or an
         email service when you&apos;re ready to go live.
       </p>
@@ -106,7 +106,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-semibold text-navy" htmlFor={name}>
+      <label className="text-sm font-semibold text-white" htmlFor={name}>
         {label}
       </label>
       <input
@@ -114,7 +114,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="rounded-xl border border-line bg-mist-50 px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:bg-white"
+        className="rounded-xl bg-white/5 px-4 py-3 text-sm text-white outline-none ring-1 ring-white/10 transition-colors placeholder:text-white/35 focus:bg-white/10 focus:ring-gold-300/50"
       />
     </div>
   );

@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
+import JsonLd from "@/components/JsonLd";
 import { site } from "@/lib/content";
 
 const inter = Inter({
@@ -48,6 +49,32 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jakarta.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-mist-50 text-ink">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            name: site.name,
+            url: site.url,
+            logo: `${site.url}/logo-full.png`,
+            image: `${site.url}/logo-full.png`,
+            description: site.description,
+            email: site.email,
+            telephone: site.phone,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "483 Burnhamthorpe Rd W Unit 1",
+              addressLocality: "Oakville",
+              addressRegion: "ON",
+              postalCode: "L6M 4H1",
+              addressCountry: "CA",
+            },
+            areaServed: {
+              "@type": "Country",
+              name: "Canada",
+            },
+            sameAs: [site.linkedin, site.instagram].filter(Boolean),
+          }}
+        />
         <Script
           id="cookieyes"
           strategy="beforeInteractive"

@@ -17,6 +17,8 @@ import StoryFlow from "./StoryFlow";
 import FloatVideo from "./FloatVideo";
 import ProcessFilmstrip from "./ProcessFilmstrip";
 import SectionConnector from "./SectionConnector";
+import SiteUpgradeCompare from "./SiteUpgradeCompare";
+import { siteUpgradeCompare } from "@/lib/content";
 import { ArrowRightIcon, CheckIcon, iconMap } from "./Icons";
 import {
   pillarBrand,
@@ -50,6 +52,7 @@ export default function PillarLanding({
   trustBadges,
   heroMetrics,
   showRoiCalculator = false,
+  showSiteComparison = false,
   processStory = false,
   processVideo,
   heroVideo,
@@ -60,6 +63,7 @@ export default function PillarLanding({
   trustBadges?: string[];
   heroMetrics?: HeroMetric[];
   showRoiCalculator?: boolean;
+  showSiteComparison?: boolean;
   processVideo?: string;
   processStory?: boolean;
   heroVideo?: string;
@@ -206,6 +210,25 @@ export default function PillarLanding({
           )}
         </Container>
       </section>
+
+      {/* Outdated vs. built-by-us comparison */}
+      {showSiteComparison && (
+        <Section3D className="py-20">
+          <Container className="relative z-10">
+            <Reveal>
+              <SectionHeading
+                dark
+                eyebrow={siteUpgradeCompare.eyebrow}
+                title={siteUpgradeCompare.title}
+                description={siteUpgradeCompare.description}
+              />
+            </Reveal>
+            <Reveal delay={120} className="mt-14">
+              <SiteUpgradeCompare />
+            </Reveal>
+          </Container>
+        </Section3D>
+      )}
 
       {/* Process */}
       {processSteps.length > 0 && (

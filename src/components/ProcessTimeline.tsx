@@ -70,18 +70,24 @@ export default function ProcessTimeline({ steps }: { steps: Step[] }) {
             ref={(el) => {
               stepRefs.current[i] = el;
             }}
-            className={`rounded-2xl border p-6 shadow-soft transition-colors duration-500 sm:p-8 ${
-              i === active ? "border-brand-300 bg-white" : "border-line bg-white/70"
+            className={`rounded-2xl p-6 ring-1 transition-colors duration-500 sm:p-8 ${
+              i === active
+                ? "bg-white/10 ring-gold-300/40"
+                : "bg-white/5 ring-white/10"
             }`}
           >
-            <span className="font-display text-3xl font-extrabold text-brand-100">
+            <span
+              className={`font-display text-3xl font-extrabold transition-colors duration-500 ${
+                i === active ? "text-gold-300" : "text-white/20"
+              }`}
+            >
               {step.step}
             </span>
-            <h3 className="mt-2 font-display text-xl font-bold text-navy">
+            <h3 className="mt-2 font-display text-xl font-bold text-white">
               {step.title}
             </h3>
-            <p className="mt-1 text-sm font-medium text-brand-700">{step.short}</p>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{step.detail}</p>
+            <p className="mt-1 text-sm font-medium text-gold-300">{step.short}</p>
+            <p className="mt-3 text-sm leading-relaxed text-white/60">{step.detail}</p>
           </div>
         ))}
       </div>

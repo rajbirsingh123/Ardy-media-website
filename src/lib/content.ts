@@ -1,13 +1,22 @@
+import { InstagramIcon, LinkedInIcon } from "@/components/Icons";
+
 export const site = {
   name: "Ardy Media",
-  tagline: "Marketing, Media & Technology, Handled.",
+  tagline: "Paid Social & Performance Marketing, Backed by Tech.",
   description:
-    "Ardy Media runs your digital marketing, media and technology stack — Meta/Instagram/LinkedIn ads, websites, CRM, Flutter & native apps, custom development, and AI automation — so you can focus on the real work.",
-  email: "hello@ardymedia.com",
-  phone: "",
-  location: "",
-  url: "https://ardymedia.com",
+    "Ardy Media runs paid social and performance marketing on Meta, Instagram and LinkedIn — campaigns built for pipeline, not impressions — backed by the websites, CRM systems and AI automation that turn every lead into a booked call.",
+  email: "info@ardy.media",
+  phone: "(905) 609-1818",
+  location: "483 Burnhamthorpe Rd W Unit 1, Oakville, ON L6M 4H1",
+  url: "https://ardy.media",
+  linkedin: "https://lnkd.in/p/g98K-XbN",
+  instagram: "https://www.instagram.com/ardy.media/",
 };
+
+export const socialLinks: { label: string; href: string; icon: typeof LinkedInIcon }[] = [
+  { label: "LinkedIn", href: site.linkedin, icon: LinkedInIcon },
+  { label: "Instagram", href: site.instagram, icon: InstagramIcon },
+];
 
 export type HeroStage = {
   eyebrow: string;
@@ -560,6 +569,48 @@ export const stats = [
   { value: "0", label: "Vendors you have to manage" },
 ];
 
+export const siteUpgradeCompare = {
+  eyebrow: "Why It Matters",
+  title: "Your website is either earning trust, or quietly losing it",
+  description:
+    "There's no neutral first impression. Visitors decide whether to trust a business in the first few seconds on the site — and what's running under the hood decides which way that goes.",
+  before: {
+    label: "Outdated Site",
+    loadTime: 6.1,
+    points: [
+      "Visitors bounce before it finishes loading",
+      "Invisible on Google search",
+      "Breaks or misreads on mobile",
+    ],
+  },
+  after: {
+    label: "Built by Ardy Digital",
+    loadTime: 0.8,
+    points: [
+      "Visitors stick around and convert",
+      "Ranks on Google from day one",
+      "Flawless on phone, tablet & desktop",
+    ],
+  },
+  stats: [
+    {
+      value: "53%",
+      label: "of mobile visitors",
+      sublabel: "leave a site that takes over 3 seconds to load",
+    },
+    {
+      value: "7%",
+      label: "drop in conversions",
+      sublabel: "for every extra second a page takes to load",
+    },
+    {
+      value: "75%",
+      label: "of visitors judge credibility",
+      sublabel: "on design alone before reading a word",
+    },
+  ],
+};
+
 export const industries = [
   {
     name: "Local & Service Businesses",
@@ -867,6 +918,11 @@ export type PillarFaq = {
 export const pillarFaqs: Record<string, PillarFaq[]> = {
   "digital-marketing": [
     {
+      question: "How does pricing work?",
+      answer:
+        "Campaign management is scoped around your ad spend, platforms and deliverables, not a one-size-fits-all package. You'll get a specific management fee and recommended budget on the strategy call, before anything is signed.",
+    },
+    {
       question: "What's a reasonable ad budget to start with?",
       answer:
         "It depends on your market and goals, but we'd rather start smaller and prove the funnel converts before scaling spend — we'll give you a specific number on the strategy call, not a generic minimum.",
@@ -934,6 +990,11 @@ export const pillarFaqs: Record<string, PillarFaq[]> = {
 };
 
 export const faqs = [
+  {
+    question: "How does pricing work?",
+    answer:
+      "Pricing depends on scope — ad spend and platforms for paid social, phases and features for a build, volume for automation. There's no generic package price; you'll get a specific number tied to what you actually need on the strategy call.",
+  },
   {
     question: "Do we have to use all of your services?",
     answer:
