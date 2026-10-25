@@ -39,7 +39,7 @@ export default function DigitalPage() {
             telephone: site.phone,
             address: {
               "@type": "PostalAddress",
-              streetAddress: "483 Burnhamthorpe Rd W",
+              streetAddress: "2482 Burnhamthorpe Rd W",
               addressLocality: "Oakville",
               addressRegion: "ON",
               postalCode: "L6M 4H1",

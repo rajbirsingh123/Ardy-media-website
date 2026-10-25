@@ -7,7 +7,7 @@ export const site = {
     "Ardy Media runs paid social and performance marketing on Meta, Instagram and LinkedIn — campaigns built for pipeline, not impressions — backed by the websites, CRM systems and AI automation that turn every lead into a booked call.",
   email: "info@ardy.media",
   phone: "(289) 946-1005",
-  location: "483 Burnhamthorpe Rd W, Oakville, ON L6M 4H1",
+  location: "2482 Burnhamthorpe Rd W, Oakville, ON L6M 4H1",
   url: "https://ardy.media",
   linkedin: "https://lnkd.in/p/g98K-XbN",
   instagram: "https://www.instagram.com/ardy.media/",

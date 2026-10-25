@@ -189,16 +189,18 @@ export default function ProcessFilmstrip({ steps }: { steps: PillarProcessStep[]
             }}
             type="button"
             aria-label={`Focus ${stepItem.title}`}
-            className="absolute left-1/2 top-1/2 flex w-[230px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-900 to-navy p-6 text-left shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:w-[250px]"
-            style={{ aspectRatio: "0.85", willChange: "transform, opacity, filter" }}
+            className="absolute left-1/2 top-1/2 flex w-[230px] flex-col items-center border border-white/10 bg-gradient-to-br from-brand-900 to-navy px-6 pb-16 pt-7 text-center shadow-lift outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:w-[250px]"
+            style={{
+              aspectRatio: "0.85",
+              willChange: "transform, opacity, filter",
+              clipPath:
+                "polygon(0% 0%, 100% 0%, 100% 55%, 99% 62%, 96% 70%, 91% 77%, 85% 83%, 78% 88%, 70% 93%, 61% 97%, 50% 100%, 39% 97%, 30% 93%, 22% 88%, 15% 83%, 9% 77%, 4% 70%, 1% 62%, 0% 55%)",
+            }}
           >
-            <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full border border-gold-500/60 font-mono text-xs font-semibold text-gold-400">
-              {stepItem.step}
-            </span>
-            <span className="mt-4 block font-display text-base font-bold text-white">
+            <span className="block font-display text-base font-bold text-white">
               {stepItem.title}
             </span>
-            <span className="mt-2 line-clamp-6 block text-sm leading-relaxed text-white/60">
+            <span className="mt-2 line-clamp-4 block text-sm leading-relaxed text-white/60">
               {stepItem.description}
             </span>
           </button>

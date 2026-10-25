@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { site } from "@/lib/content";
 
 const inter = Inter({
@@ -62,7 +63,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             telephone: site.phone,
             address: {
               "@type": "PostalAddress",
-              streetAddress: "483 Burnhamthorpe Rd W",
+              streetAddress: "2482 Burnhamthorpe Rd W",
               addressLocality: "Oakville",
               addressRegion: "ON",
               postalCode: "L6M 4H1",
@@ -77,13 +78,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <Script
           id="cookieyes"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           src="https://cdn-cookieyes.com/client_data/5a762f72ddb772ec33d63fa8779c7c63/script.js"
         />
         <SmoothScroll />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <WhatsAppFloat />
       </body>
     </html>
   );
