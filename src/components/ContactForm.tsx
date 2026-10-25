@@ -1,16 +1,41 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { services } from "@/lib/content";
+import { services, site } from "@/lib/content";
 import { CheckIcon } from "./Icons";
+
+const whatsappDigits = site.phone.replace(/\D/g, "");
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = data.get("name") as string;
+    const email = data.get("email") as string;
+    const phone = data.get("phone") as string;
+    const service = data.get("service") as string;
+    const message = data.get("message") as string;
+
+    const lines = [
+      "New inquiry from the Ardy Media website:",
+      "",
+      `Name: ${name}`,
+      `Email: ${email}`,
+      phone ? `Phone: ${phone}` : null,
+      `Interested in: ${service}`,
+      message ? `Message: ${message}` : null,
+    ].filter(Boolean);
+
+    const whatsappUrl = `https://wa.me/1${whatsappDigits}?text=${encodeURIComponent(
+      lines.join("\n")
+    )}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
     setSubmitted(true);
-    e.currentTarget.reset();
+    form.reset();
   }
 
   if (submitted) {
@@ -21,8 +46,8 @@ export default function ContactForm() {
         </div>
         <h3 className="font-display text-xl font-bold text-white">Thanks — got it.</h3>
         <p className="max-w-sm text-sm leading-relaxed text-white/65">
-          Your message has been noted. This is a demo form with no backend connected —
-          hook it up to your CRM or an email service to start receiving real submissions.
+          We&apos;ve opened WhatsApp with your details ready to send — just hit send over
+          there and we&apos;ll get back to you directly.
         </p>
         <button
           onClick={() => setSubmitted(false)}
@@ -85,10 +110,6 @@ export default function ContactForm() {
       >
         Send Message
       </button>
-      <p className="text-center text-xs text-white/50">
-        This is a demo form (no backend connected yet) — hook it up to your CRM or an
-        email service when you&apos;re ready to go live.
-      </p>
     </form>
   );
 }
