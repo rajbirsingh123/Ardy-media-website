@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import NextImage from "next/image";
 import * as THREE from "three";
+import Button from "./Button";
 import Container from "./Container";
-import FilmReelStrip from "./FilmReelStrip";
+import NavTickerStrip from "./NavTickerStrip";
 import NeuralButton from "./NeuralButton";
 import ParticleHeading from "./ParticleHeading";
 import Reveal from "./Reveal";
@@ -808,8 +810,32 @@ export default function OrbHero() {
           </Container>
         </div>
 
-        <div className="absolute inset-x-0 top-0 z-[2]">
-          <FilmReelStrip />
+        <div className="absolute inset-x-0 top-5 z-[2] sm:top-6">
+          <NavTickerStrip />
+        </div>
+
+        <div className="absolute inset-x-0 top-14 z-[2] flex items-center justify-between gap-4 px-3 sm:top-15 sm:px-4 md:top-16 lg:top-18 lg:px-6">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+            <NextImage
+              src="/am-shield-mark.webp"
+              alt=""
+              width={480}
+              height={435}
+              className="h-32 w-auto shrink-0 sm:h-36 md:h-40 lg:h-44"
+            />
+            <span
+              className="font-display text-xl font-extrabold uppercase tracking-tight text-white sm:text-2xl md:text-3xl lg:text-4xl"
+              style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+            >
+              Ardy Media
+            </span>
+          </div>
+          <Button
+            href="/contact"
+            className="shrink-0 !bg-[linear-gradient(180deg,_#1180f2_0%,_#0066d6_45%,_#0152bf_100%)] !px-5 !py-2.5"
+          >
+            Get a Quote
+          </Button>
         </div>
       </div>
     </section>
