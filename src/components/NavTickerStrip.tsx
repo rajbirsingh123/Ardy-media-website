@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { navLinks } from "@/lib/content";
@@ -61,8 +64,8 @@ function TrioGroup({ items }: { items: TickerItem[] }) {
         const style = {
           left: `${PANEL_LABEL_POS[i].x}%`,
           top: `${PANEL_LABEL_POS[i].y}%`,
-          transform: `translate(-50%, -50%) scale(${scale})`,
-        };
+          "--label-scale": scale,
+        } as CSSProperties;
         const className =
           "ticker-label absolute whitespace-nowrap text-center font-display font-extrabold uppercase text-white";
         return item.href ? (
@@ -90,10 +93,18 @@ function TrioSequence() {
 }
 
 export default function NavTickerStrip() {
+  const [paused, setPaused] = useState(false);
+
   return (
-    <div className="ticker-stage h-8 sm:h-9 md:h-10 lg:h-11">
+    <div
+      className="ticker-stage h-8 sm:h-9 md:h-10 lg:h-11"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="ticker-fade h-full overflow-hidden">
-        <div className="ticker-track flex h-full w-max items-center gap-2 sm:gap-2.5 md:gap-3">
+        <div
+          className={`ticker-track flex h-full w-max items-center gap-2 sm:gap-2.5 md:gap-3 ${paused ? "ticker-track--paused" : ""}`}
+        >
           <TrioSequence />
           <TrioSequence />
         </div>

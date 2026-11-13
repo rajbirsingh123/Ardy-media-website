@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 import SmoothScroll from "@/components/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           src="https://cdn-cookieyes.com/client_data/5a762f72ddb772ec33d63fa8779c7c63/script.js"
         />
         <SmoothScroll />
+        <SiteHeader />
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppFloat />
