@@ -63,7 +63,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             telephone: site.phone,
             address: {
               "@type": "PostalAddress",
-              streetAddress: "2482 Burnhamthorpe Rd W",
+              streetAddress: "2483 Burnhamthorpe Rd W",
               addressLocality: "Oakville",
               addressRegion: "ON",
               postalCode: "L6M 4H1",

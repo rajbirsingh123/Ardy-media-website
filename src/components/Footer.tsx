@@ -69,7 +69,7 @@ export default function Footer() {
               Company
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm">
-              {navLinks.map((link) => (
+              {navLinks.filter((link) => link.label !== "Team").map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-white/70 transition-colors hover:text-gold-300">
                     {link.label}
